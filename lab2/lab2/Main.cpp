@@ -6,6 +6,8 @@
 #include "CMenu.h"
 #include "CMenuCommand.h"
 #include "komenda.h"
+#include "CConfig.h"
+#include "CTableCollector.h"
 
 using namespace std;
 
@@ -15,23 +17,66 @@ int main() {
 
 
 
-	komenda *komenda1 = new komenda();
-
-	CMenuCommand *menukom1 = new CMenuCommand("komenda 1 ", "wykonaj", komenda1);
 
 
-	vector<CMenuItem*> vec;
-	vector<CMenuItem*> vec1;
 
-	vec1.push_back(menukom1);
-	vec.push_back(menukom1);
 
-	CMenu *drugie = new CMenu("drugie menu", "wejdz", &vec1);
-	
-	vec.push_back(drugie);
+	CConfig conf;
 
-	CMenu *main = new CMenu("main", "main", &vec);
-	main->run();
+	conf.config();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	//CTableCollector *test = new CTableCollector();
+
+//vector<CTable*> *testowy = test->getVector();
+
+//testowy->push_back(new CTable());
+
+//CTable *wskct;
+
+////wskct = (*testowy)[0];
+
+//wskct = (*test->getVector())[0];
+
+//cout << wskct->getName() << endl;
+
+
+
+
+	//komenda *komenda1 = new komenda();
+
+	//CMenuCommand *menukom1 = new CMenuCommand("komenda 1 ", "wykonaj", komenda1);
+
+
+	//vector<CMenuItem*> vec;
+	//vector<CMenuItem*> vec1;
+
+	//vec1.push_back(menukom1);
+	//vec.push_back(menukom1);
+
+	//CMenu *drugie = new CMenu("drugie menu", "wejdz", &vec1);
+	//
+	//vec.push_back(drugie);
+
+	//CMenu *main = new CMenu("main", "main", &vec);
+	//main->run();
 
 
 

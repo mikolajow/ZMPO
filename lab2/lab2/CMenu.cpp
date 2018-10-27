@@ -47,7 +47,7 @@ int CMenu::executeCommand() {
 		if (chosenWorker) {
 			(*chosenWorker).run();
 		}
-		else {
+		else if (!flag){
 			cout << "Zla komenda wprowadz ponownie" << endl;
 		}//koniec else
 

@@ -1,4 +1,6 @@
 #pragma once
+#include<vector>
+#include "CTable.h"
 
 
 using namespace std;
@@ -10,8 +12,7 @@ public:
 	virtual void runCommand();
 
 	virtual ~CCommand();
-
-
+	
 };
 
 
