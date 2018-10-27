@@ -10,11 +10,17 @@ CCloneElem::CCloneElem(CTableCollector *collect) {
 
 
 void CCloneElem::runCommand() {
+	vector<CTable*> *vec = collector->getVector();
 
-	cout << S_GIVE_INDEX_TO_CLONE << endl;
-	int index = collector->giveMeAnIndex();
-	cloneAndAdd(index);
-
+	if (vec->empty()) {
+		cout << S_EMPTY_LIST << endl;
+	}
+	else
+	{
+		cout << S_GIVE_INDEX_TO_CLONE << endl;
+		int index = collector->giveMeAnIndex();
+		cloneAndAdd(index);
+	}
 }
 
 

@@ -5,7 +5,7 @@
 
 
 #define S_GIVE_INDEX_TO_DELETE "Podaj index elementu do skasowania"
-
+#define S_EMPTY_LIST "Pusta lista nic sie nie zadzialo"
 
 class CDeleteChosenElement : public CCommand {
 

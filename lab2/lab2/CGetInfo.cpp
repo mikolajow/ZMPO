@@ -11,10 +11,17 @@ CGiveInfo::CGiveInfo(CTableCollector *collect) {
 
 void CGiveInfo::runCommand() {
 
-	cout << S_GIVE_INDEX_OF_OBJECT_U_WANT_KNOW << endl;
-	int index = collector->giveMeAnIndex();
-	printCTable(index);
+	vector<CTable*> *vec = collector->getVector();
 
+	if (vec->empty()) {
+		cout << S_EMPTY_LIST << endl;
+	}
+	else
+	{
+		cout << S_GIVE_INDEX_OF_OBJECT_U_WANT_KNOW << endl;
+		int index = collector->giveMeAnIndex();
+		printCTable(index);
+	}
 }
 
 

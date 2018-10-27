@@ -13,13 +13,19 @@ CDeleteAll::CDeleteAll(CTableCollector *collect) {
 
 
 void CDeleteAll::runCommand() {
+	vector<CTable*> *vec = collector->getVector();
 
-	cout << S_SURE_WANA_DELETE_ALL << endl;
-	int decision = collector->giveMeANumber();
-	if (decision == 1) {
-		deleteAll();
-	}//koniec if
-
+	if (vec->empty()) {
+		cout << S_EMPTY_LIST << endl;
+	}
+	else
+	{
+		cout << S_SURE_WANA_DELETE_ALL << endl;
+		int decision = collector->giveMeANumber();
+		if (decision == 1) {
+			deleteAll();
+		}//koniec if
+	}
 }
 
 

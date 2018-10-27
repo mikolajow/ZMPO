@@ -5,7 +5,7 @@
 
 
 #define S_GIVE_INDEX_TO_CLONE  "Podaj index objektu do sklonowania"
-
+#define S_EMPTY_LIST "Pusta lista nic sie nie zadzialo"
 
 
 class CCloneElem : public CCommand {
