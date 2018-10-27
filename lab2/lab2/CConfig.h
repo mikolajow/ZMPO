@@ -7,7 +7,7 @@
 #include "CMenu.h"
 #include "CMenuCommand.h"
 
-#include "komenda.h"
+
 #include "CMakeNewCTables.h"
 #include "CChangeTableSize.h"
 #include "CDeleteChosenElement.h"
@@ -16,7 +16,7 @@
 #include "CGetInfo.h"
 #include "CChangeOneField.h"
 #include "CCloneElem.h"
-
+#include "CClearScreen.h"
 
 
 class CConfig {

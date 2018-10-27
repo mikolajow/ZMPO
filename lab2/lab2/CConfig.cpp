@@ -1,11 +1,15 @@
 
 #include "CConfig.h"
+#include <typeinfo>
 
 
 void CConfig::config() {
 
+
 	CTableCollector *collector = new CTableCollector();
 
+	CClearScreen *clearScreen = new CClearScreen();
+	CMenuCommand *clearScreenmenu = new CMenuCommand("wyczysc ekran", "cls", clearScreen);
 
 	// MENU USUWANIA	--------------------------------------------------------------
 	// @ TWORZENIE METOD
@@ -23,6 +27,7 @@ void CConfig::config() {
 
 	vectorDeleteMenu.push_back(deleteChosenElementMenu);
 	vectorDeleteMenu.push_back(deleteAllMenu);
+	vectorDeleteMenu.push_back(clearScreenmenu);
 
 	CMenu *deleteMenu = new CMenu("menu usuwania", "usuwanie", &vectorDeleteMenu);
 
@@ -49,6 +54,7 @@ void CConfig::config() {
 	vectorChangeMenu.push_back(changeTableSizeMenu);
 	vectorChangeMenu.push_back(changeNameMenu);
 	vectorChangeMenu.push_back(changeFieldMenu);
+	vectorChangeMenu.push_back(clearScreenmenu);
 
 	CMenu *changeMenu = new CMenu("menu zmian", "zmiana", &vectorChangeMenu);
 
@@ -78,11 +84,13 @@ void CConfig::config() {
 	vectorMainMenu.push_back(makeNewCtablesMenu);
 	vectorMainMenu.push_back(giveInfoMenu);
 	vectorMainMenu.push_back(cloneMenu);
+	vectorMainMenu.push_back(clearScreenmenu);
 
 
 
 
 	CMenu *mainMenu = new CMenu("Main Menu", "main", &vectorMainMenu);
+
 
 	mainMenu->run();
 

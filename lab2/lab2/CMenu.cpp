@@ -66,8 +66,16 @@ void CMenu::showMenu() {
 	cout << "Jestes w " << getName() << endl;
 
 	for (unsigned int i = 0; i < list->size(); i++) {
-		cout << "  -- " << (*(*list)[i]).toString() << endl;
-	}
+		CMenuItem *current = (*list)[i];
+
+		if (typeid(*current).name() == typeid(CMenu).name() ) {
+			cout << "  => " << (*current).toString() << endl;
+		}//koniec if
+		else {
+			cout << "    -- " << (*current).toString() << endl;
+		}//koniec else
+
+	}//koniec for
 }//koniec show menu
 
 

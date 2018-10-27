@@ -5,7 +5,6 @@
 #include "CMenuItem.h"
 #include "CMenu.h"
 #include "CMenuCommand.h"
-#include "komenda.h"
 #include "CConfig.h"
 #include "CTableCollector.h"
 
