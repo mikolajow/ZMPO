@@ -33,7 +33,7 @@ int CMenu::executeCommand() {
 		getline(cin, chosenCommand);
 
 
-		if (chosenCommand == "back") {
+		if (chosenCommand == S_BACK ) {
 			return 0;
 		}
 
@@ -48,7 +48,7 @@ int CMenu::executeCommand() {
 			(*chosenWorker).run();
 		}
 		else if (!flag){
-			cout << "Zla komenda wprowadz ponownie" << endl;
+			cout << S_WRONG_COMMAND << endl;
 		}//koniec else
 
 		if (flag) {
@@ -63,16 +63,16 @@ int CMenu::executeCommand() {
 
 void CMenu::showMenu() {
 	cout << endl;
-	cout << "Jestes w " << getName() << endl;
+	cout << S_YOU_ARE_IN << getName() << endl;
 
 	for (unsigned int i = 0; i < list->size(); i++) {
 		CMenuItem *current = (*list)[i];
 
 		if (typeid(*current).name() == typeid(CMenu).name() ) {
-			cout << "  => " << (*current).toString() << endl;
+			cout << S_MENU_PREFIX << (*current).toString() << endl;
 		}//koniec if
 		else {
-			cout << "    -- " << (*current).toString() << endl;
+			cout << S_COMMAND_PREFIX << (*current).toString() << endl;
 		}//koniec else
 
 	}//koniec for
