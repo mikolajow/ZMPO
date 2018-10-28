@@ -8,8 +8,7 @@ void CConfig::config() {
 
 	CTableCollector *collector = new CTableCollector();
 
-	CClearScreen *clearScreen = new CClearScreen();
-	CMenuCommand *clearScreenmenu = new CMenuCommand("wyczysc ekran", "cls", clearScreen);
+
 
 	// MENU USUWANIA	--------------------------------------------------------------
 	// @ TWORZENIE METOD
@@ -27,7 +26,7 @@ void CConfig::config() {
 
 	vectorDeleteMenu.push_back(deleteChosenElementMenu);
 	vectorDeleteMenu.push_back(deleteAllMenu);
-	vectorDeleteMenu.push_back(clearScreenmenu);
+	vectorDeleteMenu.push_back(makeClearScreenCommand());
 
 	CMenu *deleteMenu = new CMenu("menu usuwania", "usuwanie", &vectorDeleteMenu);
 
@@ -54,7 +53,7 @@ void CConfig::config() {
 	vectorChangeMenu.push_back(changeTableSizeMenu);
 	vectorChangeMenu.push_back(changeNameMenu);
 	vectorChangeMenu.push_back(changeFieldMenu);
-	vectorChangeMenu.push_back(clearScreenmenu);
+	vectorChangeMenu.push_back(makeClearScreenCommand());
 
 	CMenu *changeMenu = new CMenu("menu zmian", "zmiana", &vectorChangeMenu);
 
@@ -84,7 +83,7 @@ void CConfig::config() {
 	vectorMainMenu.push_back(makeNewCtablesMenu);
 	vectorMainMenu.push_back(giveInfoMenu);
 	vectorMainMenu.push_back(cloneMenu);
-	vectorMainMenu.push_back(clearScreenmenu);
+	vectorMainMenu.push_back(makeClearScreenCommand());
 
 
 
@@ -95,13 +94,40 @@ void CConfig::config() {
 	mainMenu->run();
 
 
+
+
+	// DELETE ELEMENTS
+
+	deleteVector(vectorDeleteMenu);
+	deleteVector(vectorChangeMenu);
+	deleteVector(vectorMainMenu);
+
+	delete mainMenu;
+
+
 }//koniec metody config
 
 
 
 
 
+void CConfig::deleteVector(vector<CMenuItem*> &vec){
 
+	for (unsigned int i = 0; i < vec.size(); i++) {
+		delete vec[i];
+	}
+
+}//koniec delete vecror
+
+
+
+
+
+CMenuCommand* CConfig::makeClearScreenCommand() {
+	CClearScreen *clearScreen = new CClearScreen();
+	CMenuCommand *clearScreenMenu = new CMenuCommand("wyczysc ekran", "cls", clearScreen);
+	return clearScreenMenu;
+}
 
 
 

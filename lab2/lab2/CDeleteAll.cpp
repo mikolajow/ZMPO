@@ -6,7 +6,6 @@
 
 
 
-
 CDeleteAll::CDeleteAll(CTableCollector *collect) {
 	collector = collect;
 }

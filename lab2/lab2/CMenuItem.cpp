@@ -1,12 +1,14 @@
 #include<string>
 #include "CMenuItem.h"
-
+#include<iostream>
 
 using namespace std;
 
 
 
-	CMenuItem::~CMenuItem() = default;
+CMenuItem::~CMenuItem() {
+	//cout << "usunieto: "<<s_name << endl;
+	}
 
 
 	string CMenuItem::toString() {

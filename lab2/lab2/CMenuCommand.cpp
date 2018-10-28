@@ -11,7 +11,9 @@ CMenuCommand::CMenuCommand(string name, string command, CCommand *work) {
 	s_command = command;
 }
 
-CMenuCommand::~CMenuCommand() = default;
+CMenuCommand::~CMenuCommand() {
+	delete worker;
+}
 
 
 void CMenuCommand::run() {
