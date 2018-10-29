@@ -24,13 +24,11 @@ void CConfig::config() {
 
 	vector<CMenuItem*> vectorDeleteMenu;
 
-	vectorDeleteMenu.push_back(deleteChosenElementMenu);
-	vectorDeleteMenu.push_back(deleteAllMenu);
-	vectorDeleteMenu.push_back(makeClearScreenCommand());
-
 	CMenu *deleteMenu = new CMenu("menu usuwania", "usuwanie", &vectorDeleteMenu);
 
-
+	deleteMenu->addNewItem(deleteChosenElementMenu);
+	deleteMenu->addNewItem(deleteAllMenu);
+	deleteMenu->addNewItem(makeClearScreenCommand());
 
 
 	// MENU ZMIAN ---------------------------------------------------------------
@@ -50,13 +48,12 @@ void CConfig::config() {
 
 	vector<CMenuItem*> vectorChangeMenu;
 
-	vectorChangeMenu.push_back(changeTableSizeMenu);
-	vectorChangeMenu.push_back(changeNameMenu);
-	vectorChangeMenu.push_back(changeFieldMenu);
-	vectorChangeMenu.push_back(makeClearScreenCommand());
-
 	CMenu *changeMenu = new CMenu("menu zmian", "zmiana", &vectorChangeMenu);
 
+	changeMenu->addNewItem(changeTableSizeMenu);
+	changeMenu->addNewItem(changeNameMenu);
+	changeMenu->addNewItem(changeFieldMenu);
+	changeMenu->addNewItem(makeClearScreenCommand());
 
 
 	// MAIN MENU	------------------------------------------------------------------
@@ -77,18 +74,16 @@ void CConfig::config() {
 
 	vector<CMenuItem*> vectorMainMenu;
 
-	vectorMainMenu.push_back(deleteMenu);
-	vectorMainMenu.push_back(changeMenu);
-
-	vectorMainMenu.push_back(makeNewCtablesMenu);
-	vectorMainMenu.push_back(giveInfoMenu);
-	vectorMainMenu.push_back(cloneMenu);
-	vectorMainMenu.push_back(makeClearScreenCommand());
-
-
-
-
 	CMenu *mainMenu = new CMenu("Main Menu", "main", &vectorMainMenu);
+
+	mainMenu->addNewItem(deleteMenu);
+	mainMenu->addNewItem(changeMenu);
+
+	mainMenu->addNewItem(makeNewCtablesMenu);
+	mainMenu->addNewItem(giveInfoMenu);
+	mainMenu->addNewItem(cloneMenu);
+
+	mainMenu->addNewItem(makeClearScreenCommand());
 
 
 	mainMenu->run();
@@ -98,28 +93,10 @@ void CConfig::config() {
 
 	// DELETE ELEMENTS
 
-	deleteVector(vectorDeleteMenu);
-	deleteVector(vectorChangeMenu);
-	deleteVector(vectorMainMenu);
-
 	delete mainMenu;
 
 
 }//koniec metody config
-
-
-
-
-
-void CConfig::deleteVector(vector<CMenuItem*> &vec){
-
-	for (unsigned int i = 0; i < vec.size(); i++) {
-		delete vec[i];
-	}
-
-}//koniec delete vecror
-
-
 
 
 

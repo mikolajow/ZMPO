@@ -22,12 +22,14 @@ public:
 
 	void run(); // pobiera komende i jesli poprawna to wykonuje
 
+	void addNewItem(CMenuItem *newOne);
+
+	void deleteOneMneuItem(int index);
 
 
 private:
 
 	vector <CMenuItem*> *list;
-
 
 	int executeCommand();
 

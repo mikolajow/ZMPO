@@ -3,7 +3,9 @@
 
 
 
-
+//CDeleteAll::~CDeleteAll() {
+//	cout << "usuniento delete alll command" << endl;
+//}
 
 
 CDeleteAll::CDeleteAll(CTableCollector *collect) {

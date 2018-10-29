@@ -13,6 +13,8 @@ class CDeleteAll : public CCommand {
 
 public:
 
+	//~CDeleteAll();
+
 	CDeleteAll(CTableCollector *collector);
 
 	void runCommand();

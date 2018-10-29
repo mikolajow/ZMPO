@@ -27,7 +27,6 @@ public:
 
 private:
 
-	void deleteVector( vector<CMenuItem*> &vec );
 
 	CMenuCommand* makeClearScreenCommand();
 };

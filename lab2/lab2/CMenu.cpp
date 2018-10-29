@@ -10,7 +10,12 @@ CMenu::CMenu(string name, string command, vector <CMenuItem*> *list): list(list)
 	s_command = command;
 }//koniec konstruktora
 
-CMenu::~CMenu() = default;
+CMenu::~CMenu() {
+	//cout << "ununiento menu o nazwie: " << s_name << endl;
+	for (unsigned int i = 0; i < (*list).size(); i++) {
+		delete  (*list)[i];
+	}
+}
 
 
 void CMenu::run() {
@@ -79,9 +84,13 @@ void CMenu::showMenu() {
 }//koniec show menu
 
 
+void CMenu::addNewItem(CMenuItem *newOne) {
+	(*list).push_back(newOne);
+}
 
-
-
+void CMenu::deleteOneMneuItem(int index) {
+	(*list).erase((*list).begin() + index);
+}
 
 
 
