@@ -73,16 +73,18 @@ int CTable::getValueFromIndex(int index , bool *succes) {
 
 
 bool CTable::setTableSize(int newSize) {
-	if (newSize < 0 || newSize > I_MAX_INT) {
+	if (newSize < 0 || newSize < i_size) {
 		return false;
 	}
-	else if (newSize = i_size) { return true; } //jak sa równe to nie trzeba nic zmieniac i jest ok
-	else {
+	else if (newSize == i_size) { return true; } //jak sa równe to nie trzeba nic zmieniac i jest ok
 
+	else {
 		int *newPiTable = new int[newSize];
-		if (newSize < i_size) { //przepisze tylko tyle elementów ile sie zmieœci, reszta przepada
-			i_size = newSize;	//jesli newSize jest wieksze od i_size to przepisze wszystkie wartosci i zostamnie jeszcze miejsce
-		}
+		for (int i = 0; i < newSize; i++) {
+			newPiTable[i] = 0;
+		}//koniec for
+
+
 		for (int i = 0; i < i_size; i++) {
 			newPiTable[i] = pi_table[i];
 		}//koniec for
@@ -92,8 +94,10 @@ bool CTable::setTableSize(int newSize) {
 		pi_table = newPiTable;
 		return true;
 
-	}//koniec if
-}
+
+	}//koniec else
+}//koniec metody
+
 
 void CTable::coppyTableFromObjectCTable(CTable &original) {
 

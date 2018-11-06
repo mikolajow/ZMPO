@@ -33,33 +33,64 @@ int CMenu::executeCommand() {
 
 	while (true)
 	{
-		bool flag = false;		//jak flaga wynosi true to znaczy ze weszlismy w podmenu, jak z niego wyjdziemy to wyswietl tresc aktualnego menu ponownie
+		bool showMenuAgain = false;		//jak flaga wynosi true to znaczy ze weszlismy w podmenu, jak z niego wyjdziemy to wyswietl tresc aktualnego menu ponownie
 		CMenuItem *chosenWorker = NULL;
 		getline(cin, chosenCommand);
 
 
-		if (chosenCommand == S_BACK ) {
+
+
+		if (chosenCommand == S_BACK ) 
+		{
 			return 0;
-		}
+		}// if back
 
-		for (unsigned int i = 0; i < list->size(); i++) {
-			if (chosenCommand == (*(*list)[i]).getCommand()) {
-				chosenWorker = &(*(*list)[i]);
-				flag = true;
-			}//koniec if
-		}//koniec for
 
-		if (chosenWorker) {
-			(*chosenWorker).run();
-		}
-		else if (!flag){
-			cout << S_WRONG_COMMAND << endl;
-		}//koniec else
 
-		if (flag) {
-			showMenu();
-			flag = false;
-		}
+
+
+
+
+
+
+
+		else if (chosenCommand.find("help ") == 0)
+		{
+
+			cout << "pomyslne help" << endl;
+		}//if help
+		else if (chosenCommand.find("search ") == 0)
+		{
+
+			cout << "pomyslne search" << endl;
+		}//if search
+
+
+
+
+
+
+
+
+
+
+		else
+		{
+			chosenWorker = findWorker(chosenCommand, showMenuAgain);
+
+			if (chosenWorker) {
+				(*chosenWorker).run();
+			}
+			else if (!showMenuAgain) {
+				cout << S_WRONG_COMMAND << endl;
+			}//koniec else
+
+			if (showMenuAgain)
+			{
+				showMenu();
+				showMenuAgain = false;
+			}//if show menu
+		}//else - default
 
 
 	}//koniec while
@@ -93,7 +124,16 @@ void CMenu::deleteOneMneuItem(int index) {
 }
 
 
-
+CMenuItem* CMenu::findWorker(string chosenCommand, bool &showMenuAgain) {
+	CMenuItem *chosenWorker = NULL;
+	for (unsigned int i = 0; i < list->size(); i++) {
+		if (chosenCommand == (*(*list)[i]).getCommand()) {
+			chosenWorker = &(*(*list)[i]);
+			showMenuAgain = true;
+		}//koniec if
+	}//koniec for
+	return chosenWorker;
+}
 
 
 
