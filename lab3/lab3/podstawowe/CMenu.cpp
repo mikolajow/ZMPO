@@ -57,7 +57,11 @@ int CMenu::executeCommand() {
 		else if (chosenCommand.find("help ") == 0)
 		{
 
+
+			chosenWorker = findWorker(chosenCommand);
 			cout << "pomyslne help" << endl;
+
+
 		}//if help
 		else if (chosenCommand.find("search ") == 0)
 		{
@@ -76,7 +80,7 @@ int CMenu::executeCommand() {
 
 		else
 		{
-			chosenWorker = findWorker(chosenCommand, showMenuAgain);
+			chosenWorker = findWorkerWithFlag(chosenCommand, showMenuAgain);
 
 			if (chosenWorker) {
 				(*chosenWorker).run();
@@ -124,7 +128,7 @@ void CMenu::deleteOneMneuItem(int index) {
 }
 
 
-CMenuItem* CMenu::findWorker(string chosenCommand, bool &showMenuAgain) {
+CMenuItem* CMenu::findWorkerWithFlag(string chosenCommand, bool &showMenuAgain) {
 	CMenuItem *chosenWorker = NULL;
 	for (unsigned int i = 0; i < list->size(); i++) {
 		if (chosenCommand == (*(*list)[i]).getCommand()) {
@@ -135,7 +139,15 @@ CMenuItem* CMenu::findWorker(string chosenCommand, bool &showMenuAgain) {
 	return chosenWorker;
 }
 
-
+CMenuItem* CMenu::findWorker(string chosenCommand) {
+	CMenuItem *chosenWorker = NULL;
+	for (unsigned int i = 0; i < list->size(); i++) {
+		if (chosenCommand == (*(*list)[i]).getCommand()) {
+			chosenWorker = &(*(*list)[i]);
+		}//koniec if
+	}//koniec for
+	return chosenWorker;
+}
 
 
 

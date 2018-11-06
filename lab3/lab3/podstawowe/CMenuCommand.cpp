@@ -5,10 +5,11 @@
 using namespace std;
 
 
-CMenuCommand::CMenuCommand(string name, string command, CCommand *work) {
+CMenuCommand::CMenuCommand(string name, string command, CCommand *work, string info) {
 	worker = work;
 	s_name = name;
 	s_command = command;
+	s_description = info;
 }
 
 CMenuCommand::~CMenuCommand() {
@@ -23,7 +24,9 @@ void CMenuCommand::run() {
 }//koniec run
 
 
-
+string CMenuCommand::getDescription() {
+	return s_description;
+}
 
 
 

@@ -35,7 +35,9 @@ private:
 
 	void showMenu();
 
-	CMenuItem* findWorker(string chosenCommand, bool &showMenuAgain);
+	CMenuItem* findWorkerWithFlag(string chosenCommand, bool &showMenuAgain);
+
+	CMenuItem* findWorker(string chosenCommand);
 
 };
 
