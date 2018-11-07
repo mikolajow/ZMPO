@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "CMenuItem.h"
+#include "CMenuCommand.h"
 
 
 #define S_BACK "back"
@@ -29,7 +30,12 @@ public:
 
 private:
 
+	CMenu *parent;
+	void setParent(CMenu *par);
+	CMenu* getParent();
+
 	vector <CMenuItem*> *list;
+
 
 	int executeCommand();
 
@@ -39,6 +45,9 @@ private:
 
 	CMenuItem* findWorker(string chosenCommand);
 
+	void search();
+
+	CMenu* findMain();
 };
 
 

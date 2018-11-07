@@ -8,6 +8,7 @@
 CMenu::CMenu(string name, string command, vector <CMenuItem*> *list): list(list) {
 	s_name = name;
 	s_command = command;
+	parent = NULL;
 }//koniec konstruktora
 
 CMenu::~CMenu() {
@@ -29,6 +30,8 @@ void CMenu::run() {
 
 int CMenu::executeCommand() {
 
+
+
 	string chosenCommand;
 
 	while (true)
@@ -45,31 +48,49 @@ int CMenu::executeCommand() {
 			return 0;
 		}// if back
 
-
-
-
-
-
-
-
-
-
 		else if (chosenCommand.find("help ") == 0)
 		{
+			string commandName = chosenCommand.substr(5, string::npos);
+
+			chosenWorker = findWorker(commandName);
+
+			CMenuCommand *chosenCommand;
+			CMenu *chosenMenu;
+
+			chosenCommand = dynamic_cast<CMenuCommand*>(chosenWorker);
+			chosenMenu = dynamic_cast<CMenu*>(chosenWorker);
+
+			if (chosenCommand)
+			{
+				cout << chosenCommand->getDescription() << endl;
+			}//if chosen command
+			else if (chosenMenu)
+			{
+				cout << "Wybrany objekt nie jest komenda tylko menu" << endl;
+			}//else chosen command
+			else
+			{
+				cout << "brak komendy" << endl;
+			}//ani menu ani komenda - brak komendy
+		}//else if help
 
 
-			chosenWorker = findWorker(chosenCommand);
-			cout << "pomyslne help" << endl;
 
 
-		}//if help
+
+
+
 		else if (chosenCommand.find("search ") == 0)
 		{
 
-			cout << "pomyslne search" << endl;
+			CMenu *main = findMain();
+
+			main->search();
+
+			cout << "glownym menu jest: " <<main->getName() << endl;
 		}//if search
 
-
+						
 
 
 
@@ -82,10 +103,12 @@ int CMenu::executeCommand() {
 		{
 			chosenWorker = findWorkerWithFlag(chosenCommand, showMenuAgain);
 
-			if (chosenWorker) {
+			if (chosenWorker)
+			{
 				(*chosenWorker).run();
 			}
-			else if (!showMenuAgain) {
+			else if (!showMenuAgain)
+			{
 				cout << S_WRONG_COMMAND << endl;
 			}//koniec else
 
@@ -120,7 +143,22 @@ void CMenu::showMenu() {
 
 
 void CMenu::addNewItem(CMenuItem *newOne) {
+	CMenu *newMenu;
+	newMenu = dynamic_cast<CMenu*>(newOne);
+	if (newMenu)
+	{
+		newMenu->setParent(this);
+	}
+
 	(*list).push_back(newOne);
+}
+
+void CMenu::setParent(CMenu *par) {
+	this->parent = par;
+}
+
+CMenu* CMenu::getParent() {
+	return parent;
 }
 
 void CMenu::deleteOneMneuItem(int index) {
@@ -151,7 +189,34 @@ CMenuItem* CMenu::findWorker(string chosenCommand) {
 
 
 
+CMenu* CMenu::findMain() {
 
+	CMenu *main = parent;
+
+	if (!(main == NULL))
+	{
+		while ((*main).getParent())
+		{
+			main = (*main).getParent();
+		}
+	}// if (main)
+	else
+	{
+		main = this;
+	}//jesli parent jest nullem na wejsciu to zmajdujemy sie w mainie
+
+	return main;
+
+}
+
+
+void CMenu::search() {
+
+
+
+
+
+}
 
 
 

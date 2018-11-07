@@ -44,10 +44,18 @@ void CConfig::config() {
 
 
 
+	//vector<CMenuItem*> vectorTest;
+	//CMenu *test = new CMenu("testowe", "test", &vectorTest);
+	//test->addNewItem(makeClearScreenCommand());
+
+
 
 	vector<CMenuItem*> vectorChangeMenu;
 
 	CMenu *changeMenu = new CMenu("menu zmian", "zmiana", &vectorChangeMenu);
+
+
+	//changeMenu->addNewItem(test);
 
 	changeMenu->addNewItem(changeTableSizeMenu);
 	changeMenu->addNewItem(changeNameMenu);
