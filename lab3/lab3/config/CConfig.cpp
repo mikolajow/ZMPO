@@ -93,11 +93,12 @@ void CConfig::config() {
 	mainMenu->addNewItem(makeClearScreenCommand());
 
 
+	//modyfikacja 2:
 
-	vector<CMenu*> vec;
-	vec.push_back(mainMenu);
+	//vector<CMenu*> vec;
+	//vec.push_back(mainMenu);
 
-	mainMenu->printMenu(&vec);
+	//mainMenu->printMenu(&vec);
 
 
 
