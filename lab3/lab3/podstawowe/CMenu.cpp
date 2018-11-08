@@ -224,6 +224,12 @@ bool CMenu::search(string command, bool found, string patch) {
 
 void CMenu::printMenu(vector<CMenu*> *vec)
 {
+	CMenu *first = (*vec)[0];
+
+	if (first->getParent() == NULL)
+	{
+		cout << first->getName() << endl;
+	}
 
 	vector<CMenu*> leftMenus;
 
