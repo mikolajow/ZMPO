@@ -39,6 +39,8 @@ private:
 
 	int executeCommand();
 
+	void exectuteHelp(string chosenCommand);
+
 	void showMenu();
 
 	CMenuItem* findWorkerWithFlag(string chosenCommand, bool &showMenuAgain);

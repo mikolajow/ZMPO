@@ -29,9 +29,6 @@ void CMenu::run() {
 
 
 int CMenu::executeCommand() {
-
-
-
 	string chosenCommand;
 
 	while (true)
@@ -48,28 +45,9 @@ int CMenu::executeCommand() {
 
 		else if (chosenCommand.find("help ") == 0)
 		{
-			string commandName = chosenCommand.substr(5, string::npos);
 
-			chosenWorker = findWorker(commandName);
+			exectuteHelp(chosenCommand);
 
-			CMenuCommand *chosenCommand;
-			CMenu *chosenMenu;
-
-			chosenCommand = dynamic_cast<CMenuCommand*>(chosenWorker);
-			chosenMenu = dynamic_cast<CMenu*>(chosenWorker);
-
-			if (chosenCommand)
-			{
-				cout << chosenCommand->getDescription() << endl;
-			}//if chosen command
-			else if (chosenMenu)
-			{
-				cout << "Wybrany objekt nie jest komenda tylko menu" << endl;
-			}//else chosen command
-			else
-			{
-				cout << "brak komendy" << endl;
-			}//ani menu ani komenda - brak komendy
 		}//else if help
 
 		else if (chosenCommand.find("search ") == 0)
@@ -108,6 +86,32 @@ int CMenu::executeCommand() {
 
 	}//koniec while
 }//koniec execute command
+
+void CMenu::exectuteHelp(string givenCommand) {
+
+	string commandName = givenCommand.substr(5, string::npos);
+
+	CMenuItem *chosenWorker = findWorker(commandName);
+
+	CMenuCommand *chosenCommand;
+	CMenu *chosenMenu;
+
+	chosenCommand = dynamic_cast<CMenuCommand*>(chosenWorker);
+	chosenMenu = dynamic_cast<CMenu*>(chosenWorker);
+
+	if (chosenCommand)
+	{
+		cout << chosenCommand->getDescription() << endl;
+	}//if chosen command
+	else if (chosenMenu)
+	{
+		cout << "Wybrany objekt nie jest komenda tylko menu" << endl;
+	}//else chosen command
+	else
+	{
+		cout << "brak komendy" << endl;
+	}//ani menu ani komenda - brak komendy
+}//koniec execute help
 
 void CMenu::showMenu() {
 	cout << endl;
