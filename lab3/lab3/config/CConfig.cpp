@@ -44,9 +44,9 @@ void CConfig::config() {
 
 
 
-	//vector<CMenuItem*> vectorTest;
-	//CMenu *test = new CMenu("testowe", "test", &vectorTest);
-	//test->addNewItem(makeClearScreenCommand());
+	vector<CMenuItem*> vectorTest;
+	CMenu *test = new CMenu("testowe", "test", &vectorTest);
+	test->addNewItem(makeClearScreenCommand());
 
 
 
@@ -55,7 +55,7 @@ void CConfig::config() {
 	CMenu *changeMenu = new CMenu("menu zmian", "zmiana", &vectorChangeMenu);
 
 
-	//changeMenu->addNewItem(test);
+	changeMenu->addNewItem(test);
 
 	changeMenu->addNewItem(changeTableSizeMenu);
 	changeMenu->addNewItem(changeNameMenu);
@@ -93,9 +93,20 @@ void CConfig::config() {
 	mainMenu->addNewItem(makeClearScreenCommand());
 
 
+
+	vector<CMenu*> vec;
+	vec.push_back(mainMenu);
+
+	mainMenu->printMenu(&vec);
+
+
+
+	
 	mainMenu->run();
 
 
+
+	
 
 
 	// DELETE ELEMENTS

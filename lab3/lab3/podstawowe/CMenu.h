@@ -27,7 +27,9 @@ public:
 
 	void deleteOneMneuItem(int index);
 
+	void printMenu(vector<CMenu*> *vec );
 
+	vector <CMenuItem*>* getVector();
 private:
 
 	CMenu *parent;
@@ -50,6 +52,8 @@ private:
 	bool search(string command, bool found = false, string patch = "");
 
 	CMenu* findMain();
+
+
 };
 
 

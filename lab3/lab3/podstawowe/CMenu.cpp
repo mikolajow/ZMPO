@@ -222,6 +222,71 @@ bool CMenu::search(string command, bool found, string patch) {
 
 
 
+void CMenu::printMenu(vector<CMenu*> *vec)
+{
+
+	vector<CMenu*> leftMenus;
+
+		for (unsigned int i = 0; i < vec->size(); i++)
+		{
+			vector<CMenuItem*> *menusVec = (*((*vec)[i])).getVector();
+
+			for (unsigned int j = 0; j < menusVec->size(); j++)
+			{
+				CMenuItem *currentMenuItem;
+				CMenu *currentMenu;
+
+				currentMenuItem = (*menusVec)[j];
+				currentMenu = dynamic_cast<CMenu*>(currentMenuItem);
+
+				if (currentMenu)
+				{
+					leftMenus.push_back(currentMenu);
+				}//if (currentMenu)
+
+
+				cout << currentMenuItem->getName() << " -- ";
+			}
+
+		}//for (unsigned int = 0; i < list->size(); i++ )  for do wypisywania pierwszego rzedu
+
+		cout << endl;
+		
+
+		if (!leftMenus.empty())
+		{
+			printMenu(&leftMenus);
+		}
+
+}//koniec print menu
+
+
+
+vector <CMenuItem*>* CMenu::getVector()
+{
+	return list;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
