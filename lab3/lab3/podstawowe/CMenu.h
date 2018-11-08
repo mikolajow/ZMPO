@@ -45,7 +45,7 @@ private:
 
 	CMenuItem* findWorker(string chosenCommand);
 
-	void search();
+	bool search(string command, bool found = false, string patch = "");
 
 	CMenu* findMain();
 };

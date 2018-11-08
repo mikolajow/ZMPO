@@ -41,8 +41,6 @@ int CMenu::executeCommand() {
 		getline(cin, chosenCommand);
 
 
-
-
 		if (chosenCommand == S_BACK ) 
 		{
 			return 0;
@@ -74,30 +72,19 @@ int CMenu::executeCommand() {
 			}//ani menu ani komenda - brak komendy
 		}//else if help
 
-
-
-
-
-
-
 		else if (chosenCommand.find("search ") == 0)
 		{
-
 			CMenu *main = findMain();
 
-			main->search();
+			chosenCommand = chosenCommand.substr(7, string::npos);
 
-			cout << "glownym menu jest: " <<main->getName() << endl;
-		}//if search
+			bool found = main->search(chosenCommand);
 
-						
-
-
-
-
-
-
-
+			if (!found)
+			{
+				cout << "brak komendy " << endl;
+			}//if (!found)
+		}//else if search
 
 		else
 		{
@@ -119,10 +106,8 @@ int CMenu::executeCommand() {
 			}//if show menu
 		}//else - default
 
-
 	}//koniec while
 }//koniec execute command
-
 
 void CMenu::showMenu() {
 	cout << endl;
@@ -140,7 +125,6 @@ void CMenu::showMenu() {
 
 	}//koniec for
 }//koniec show menu
-
 
 void CMenu::addNewItem(CMenuItem *newOne) {
 	CMenu *newMenu;
@@ -165,7 +149,6 @@ void CMenu::deleteOneMneuItem(int index) {
 	(*list).erase((*list).begin() + index);
 }
 
-
 CMenuItem* CMenu::findWorkerWithFlag(string chosenCommand, bool &showMenuAgain) {
 	CMenuItem *chosenWorker = NULL;
 	for (unsigned int i = 0; i < list->size(); i++) {
@@ -187,8 +170,6 @@ CMenuItem* CMenu::findWorker(string chosenCommand) {
 	return chosenWorker;
 }
 
-
-
 CMenu* CMenu::findMain() {
 
 	CMenu *main = parent;
@@ -209,17 +190,31 @@ CMenu* CMenu::findMain() {
 
 }
 
+bool CMenu::search(string command, bool found, string patch) {
+	CMenuItem *wanted;
+	CMenuItem *current;
+	CMenu *currentIsMenu;
 
-void CMenu::search() {
+	for (unsigned int i = 0; i < list->size(); i++)
+	{
+		current = &(*(*list)[i]);
+		currentIsMenu = dynamic_cast<CMenu*>(current);
+		if (currentIsMenu)
+		{
+			found = currentIsMenu->search(command, found, patch + this->getName() + " -> ");
+		}//if (isMenu)
+		else
+		{
+			if (current->getCommand() == command)
+			{
+				found = true;
+				cout << patch << this->getName() << " -> " << command << endl;
+			}
+		}// else -> if (isMenu)
+	}//for (unsigned int i = 0; i < list->size(); i++)
 
-
-
-
-
-}
-
-
-
+	return found;
+}//koniec search
 
 
 
