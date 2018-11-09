@@ -27,9 +27,14 @@ public:
 
 	void deleteOneMneuItem(int index);
 
-	void printMenu(vector<CMenu*> *vec );
-
 	vector <CMenuItem*>* getVector();
+
+	//modyfikacja 2
+	void printMenu(vector<CMenu*> *vec );
+	//-----
+
+	string saveToString();
+
 private:
 
 	CMenu *parent;

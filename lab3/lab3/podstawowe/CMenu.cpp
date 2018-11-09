@@ -195,7 +195,7 @@ CMenu* CMenu::findMain() {
 }
 
 bool CMenu::search(string command, bool found, string patch) {
-	CMenuItem *wanted;
+
 	CMenuItem *current;
 	CMenu *currentIsMenu;
 
@@ -221,7 +221,13 @@ bool CMenu::search(string command, bool found, string patch) {
 }//koniec search
 
 
+vector <CMenuItem*>* CMenu::getVector()
+{
+	return list;
+}
 
+
+//modyfikacja 2
 void CMenu::printMenu(vector<CMenu*> *vec)
 {
 
@@ -259,13 +265,17 @@ void CMenu::printMenu(vector<CMenu*> *vec)
 		}
 
 }//koniec print menu
+//--------2 
 
 
-
-vector <CMenuItem*>* CMenu::getVector()
+string CMenu::saveToString()
 {
-	return list;
-}
+	string save = "";
+
+
+	return save;
+}//koniec save to sttring
+
 
 
 
