@@ -230,6 +230,12 @@ vector <CMenuItem*>* CMenu::getVector()
 //modyfikacja 2
 void CMenu::printMenu(vector<CMenu*> *vec)
 {
+	CMenu *first = (*vec)[0];
+
+	if (first->getParent() == NULL)
+	{
+		cout << first->getName() << endl;
+	}
 
 	vector<CMenu*> leftMenus;
 
@@ -268,12 +274,17 @@ void CMenu::printMenu(vector<CMenu*> *vec)
 //--------2 
 
 
-string CMenu::saveToString()
+string CMenu::saveToString(string save)
 {
-	string save = "";
 
+	save = save + "(" + "'" + getName() + "'" + "," + "'" + getCommand() + "';";
 
-	return save;
+	for (unsigned int i = 0; i < list->size(); i++)
+	{
+		save = (*(*list)[i]).saveToString(save);
+	}//for wypisywanie dzieci 
+
+	return save + ")";
 }//koniec save to sttring
 
 

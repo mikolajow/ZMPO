@@ -12,6 +12,8 @@ public:
 
 	virtual void run() = 0;
 
+	virtual string saveToString(string save = "") = 0;
+
 	string toString();
 
 	string getCommand();

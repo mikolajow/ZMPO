@@ -10,13 +10,15 @@ class CMenuCommand : public CMenuItem {
 
 public:
 
-	CMenuCommand(string name, string command, CCommand *worker, string info);
+	CMenuCommand(string name, string command,  string info, CCommand *worker = NULL);
 
 	~CMenuCommand();
 
 	void run();
 
 	string getDescription();
+
+	string saveToString(string save = "");
 
 private:
 

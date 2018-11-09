@@ -13,10 +13,10 @@ void CConfig::config() {
 	// @ TWORZENIE METOD
 
 	CDeleteChosenElement *deleteChosenElement = new CDeleteChosenElement(collector);
-	CMenuCommand *deleteChosenElementMenu = new CMenuCommand("usun wybrane ctable", "usun", deleteChosenElement, "wybierz tablice ktora ma zostac usunieta wprowadzajac jej index");
+	CMenuCommand *deleteChosenElementMenu = new CMenuCommand("usun wybrane ctable", "usun", "wybierz tablice ktora ma zostac usunieta wprowadzajac jej index", deleteChosenElement);
 
 	CDeleteAll *deleteAll = new CDeleteAll(collector);
-	CMenuCommand *deleteAllMenu = new CMenuCommand("usun wszystkie", "usun wszy", deleteAll, "usun wszystkie tabele, po wybraniu metody nalezy potwierdzic wpisujac 1");
+	CMenuCommand *deleteAllMenu = new CMenuCommand("usun wszystkie", "usun wszy", "usun wszystkie tabele, po wybraniu metody nalezy potwierdzic wpisujac 1", deleteAll);
 
 
 
@@ -34,13 +34,13 @@ void CConfig::config() {
 	// @ TWORZENIE METOD
 
 	CChangeTableSize *changeTableSize = new CChangeTableSize(collector);
-	CMenuCommand *changeTableSizeMenu = new CMenuCommand("zmien dlugosc tablicy", "zmien dl", changeTableSize, "wybierz objekt ktoremu chcesz zmienic dlugosc tablicy, dlugosc mozna jedynie zwiekszyc, co ma uniemozliwic ewentualna utrate danych");
+	CMenuCommand *changeTableSizeMenu = new CMenuCommand("zmien dlugosc tablicy", "zmien dl", "wybierz objekt ktoremu chcesz zmienic dlugosc tablicy, dlugosc mozna jedynie zwiekszyc, co ma uniemozliwic ewentualna utrate danych", changeTableSize);
 
 	CChangeName *changeName = new CChangeName(collector);
-	CMenuCommand *changeNameMenu = new CMenuCommand("zmien nazwe wybranego ctable", "zmien nazwe", changeName, "wubierz tabele ktorej chcesz zmienic nazwe poprzez podanie indexu i nowej nazwy");
+	CMenuCommand *changeNameMenu = new CMenuCommand("zmien nazwe wybranego ctable", "zmien nazwe", "wubierz tabele ktorej chcesz zmienic nazwe poprzez podanie indexu i nowej nazwy", changeName);
 
 	CChangeOneField *changeField = new CChangeOneField(collector);
-	CMenuCommand *changeFieldMenu = new CMenuCommand("zmien jedna wartosc w tabeli", "zmien wartosc", changeField, "wybierz objekt wpisujac jego index nastepnie wybierz komorke w ktorej chcesz wprowadzic nowa wartosc");
+	CMenuCommand *changeFieldMenu = new CMenuCommand("zmien jedna wartosc w tabeli", "zmien wartosc", "wybierz objekt wpisujac jego index nastepnie wybierz komorke w ktorej chcesz wprowadzic nowa wartosc", changeField);
 
 
 
@@ -67,13 +67,13 @@ void CConfig::config() {
 	// @ TWORZENIE METOD
 
 	CMakeNewCTables *makeNewCtables = new CMakeNewCTables(collector);
-	CMenuCommand *makeNewCtablesMenu = new CMenuCommand("dodaj nowe ctables", "dodaj", makeNewCtables, "utworz nowe tabele, zostana one domyslnie wypelnione zerami");
+	CMenuCommand *makeNewCtablesMenu = new CMenuCommand("dodaj nowe ctables", "dodaj", "utworz nowe tabele, zostana one domyslnie wypelnione zerami", makeNewCtables);
 
 	CGiveInfo *giveInfo = new CGiveInfo(collector);
-	CMenuCommand *giveInfoMenu = new CMenuCommand("wyswietl informacje o objekcie", "info", giveInfo, "wyswietl informacje o wybranej tablicy");
+	CMenuCommand *giveInfoMenu = new CMenuCommand("wyswietl informacje o objekcie", "info", "wyswietl informacje o wybranej tablicy", giveInfo);
 
 	CCloneElem *clone = new CCloneElem(collector);
-	CMenuCommand *cloneMenu = new CMenuCommand("klonuj i dodaj element", "klonuj", clone, "podaj index tabeli ktora chcesz zklonowac, nazwa klona bedzie konczyc sie na _copy");
+	CMenuCommand *cloneMenu = new CMenuCommand("klonuj i dodaj element", "klonuj", "podaj index tabeli ktora chcesz zklonowac, nazwa klona bedzie konczyc sie na _copy", clone);
 
 
 
@@ -93,20 +93,20 @@ void CConfig::config() {
 	mainMenu->addNewItem(makeClearScreenCommand());
 
 
+	//modyfikacja 2:
 
-	vector<CMenu*> vec;
-	vec.push_back(mainMenu);
+	//vector<CMenu*> vec;
+	//vec.push_back(mainMenu);
 
-	mainMenu->printMenu(&vec);
+	//mainMenu->printMenu(&vec);
 
 
+	cout << endl << endl;
+	cout << mainMenu->saveToString() << endl;
 
 	
 	mainMenu->run();
 
-
-
-	
 
 
 	// DELETE ELEMENTS
@@ -120,7 +120,7 @@ void CConfig::config() {
 
 CMenuCommand* CConfig::makeClearScreenCommand() {
 	CClearScreen *clearScreen = new CClearScreen();
-	CMenuCommand *clearScreenMenu = new CMenuCommand("wyczysc ekran", "cls", clearScreen, "czysci ekran i wyswietla menu w ktorym aktualnie sie znajdujesz");
+	CMenuCommand *clearScreenMenu = new CMenuCommand("wyczysc ekran", "cls", "czysci ekran i wyswietla menu w ktorym aktualnie sie znajdujesz", clearScreen);
 	return clearScreenMenu;
 }
 

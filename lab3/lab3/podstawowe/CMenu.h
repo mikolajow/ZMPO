@@ -33,7 +33,7 @@ public:
 	void printMenu(vector<CMenu*> *vec );
 	//-----
 
-	string saveToString();
+	string saveToString(string save = "");
 
 private:
 

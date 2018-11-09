@@ -1,11 +1,12 @@
 #include "CMenuCommand.h"
 #include <string>
+#include <iostream>
 
 
 using namespace std;
 
 
-CMenuCommand::CMenuCommand(string name, string command, CCommand *work, string info) {
+CMenuCommand::CMenuCommand(string name, string command, string info, CCommand *work ) {
 	worker = work;
 	s_name = name;
 	s_command = command;
@@ -19,8 +20,14 @@ CMenuCommand::~CMenuCommand() {
 
 void CMenuCommand::run() {
 
-	worker->runCommand();
-
+	if (worker) 
+	{
+		worker->runCommand();
+	}
+	else
+	{
+		cout << "komenda domyslna" << endl;
+	}
 }//koniec run
 
 
@@ -30,6 +37,16 @@ string CMenuCommand::getDescription() {
 
 
 
+
+
+
+
+
+string CMenuCommand::saveToString(string save)
+{
+	save = save + "['" + getName() + "','" + getCommand() + "','" + getDescription() + "']";
+	return save;
+}//koniec save to string
 
 
 
