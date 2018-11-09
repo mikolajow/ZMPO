@@ -11,10 +11,16 @@ CMenu::CMenu(string name, string command, vector <CMenuItem*> *list): list(list)
 	parent = NULL;
 }//koniec konstruktora
 
+CMenu::CMenu(string save)
+{
+	loadFromString(save);
+}//konstruktor z save
+
 CMenu::~CMenu() {
 	//cout << "ununiento menu o nazwie: " << s_name << endl;
 	for (unsigned int i = 0; i < (*list).size(); i++) {
 		delete  (*list)[i];
+		delete list;
 	}
 }
 
@@ -281,14 +287,111 @@ string CMenu::saveToString(string save)
 
 	for (unsigned int i = 0; i < list->size(); i++)
 	{
-		save = (*(*list)[i]).saveToString(save);
+		save = (*(*list)[i]).saveToString(save) + ",";
 	}//for wypisywanie dzieci 
 
 	return save + ")";
 }//koniec save to sttring
 
 
+void CMenu::loadFromString(string save)
+{
 
+	string saveCoppy = save;
+
+	int posOfFirstUpper = save.find("'");
+	int posOfSecondUpper = save.find("'", posOfFirstUpper + 1);
+	int length = posOfSecondUpper - posOfFirstUpper - 1;
+	string name = save.substr(posOfFirstUpper + 1, length);
+
+	cout << "menu name: " << name ;
+
+	save.erase(0, posOfSecondUpper + 1);
+
+	posOfFirstUpper = save.find("'");
+	posOfSecondUpper = save.find("'", posOfFirstUpper + 1);
+	length = posOfSecondUpper - posOfFirstUpper - 1;
+
+	string command = save.substr(posOfFirstUpper + 1, length);
+	
+	cout << "   menu command: " <<  command << endl;
+
+	save.erase(0, posOfSecondUpper + 2);	//wymazuje drugi ' i dodatkowo ;
+
+	vector<CMenuItem*> *vec = new vector <CMenuItem*>;
+
+	while (!save.empty())
+	{
+
+
+
+
+
+
+		if (save[0] == '(')
+		{
+
+
+
+			int posOfNextOpenBracket = save.find("(", 1);
+
+			int posOfCloseBracket = save.find(")", 1);		//jak menu ma w sobie menu to znajde pierwszy zamykajacy wiec lipa :(
+
+			do
+			{
+
+			} while (posOfCloseBracket > posOfNextOpenBracket);
+
+
+
+			string subSave = save.substr(0, posOfCloseBracket + 1);
+			
+			CMenu *child = new CMenu(subSave);
+
+			vec->push_back(child);
+
+			save.erase(0, posOfCloseBracket + 1);
+
+		}//if dziecko to menu
+
+
+
+
+
+
+
+		else if (save[0] == '[')
+		{
+			int posOfSecondBracket = save.find("]", 1);
+			string subSave = save.substr(0, posOfSecondBracket + 1);
+
+			CMenuCommand *child = new CMenuCommand(subSave);
+
+			vec->push_back(child);
+
+			save.erase(0, posOfSecondBracket + 1);
+
+		}
+		else if (save[0] == ',')
+		{
+			save.erase(0, 1);
+		}
+		else
+		{
+			cout << "zly string: " << save[0] << endl;
+			s_name = "blad stringa";
+			s_command = "blad stringa";
+			list = NULL;
+			save = "";
+		}
+	}//while save empty
+
+
+	s_name = name;
+	s_command = command;
+	list = vec;
+
+}//koniec load from string
 
 
 

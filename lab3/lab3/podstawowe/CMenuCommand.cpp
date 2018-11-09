@@ -13,6 +13,12 @@ CMenuCommand::CMenuCommand(string name, string command, string info, CCommand *w
 	s_description = info;
 }
 
+CMenuCommand::CMenuCommand(string save)
+{
+	loadFromString(save);
+}
+
+
 CMenuCommand::~CMenuCommand() {
 	delete worker;
 }
@@ -36,12 +42,6 @@ string CMenuCommand::getDescription() {
 }
 
 
-
-
-
-
-
-
 string CMenuCommand::saveToString(string save)
 {
 	save = save + "['" + getName() + "','" + getCommand() + "','" + getDescription() + "']";
@@ -49,7 +49,44 @@ string CMenuCommand::saveToString(string save)
 }//koniec save to string
 
 
+void CMenuCommand::loadFromString(string save)
+{
 
+	string saveCoppy = save;
+
+	int posOfFirstUpper = save.find("'");
+	int posOfSecondUpper = save.find("'", posOfFirstUpper + 1);
+	int length = posOfSecondUpper - posOfFirstUpper - 1;
+	string name = save.substr(posOfFirstUpper + 1, length);
+
+
+	save.erase(0, posOfSecondUpper + 1);
+
+	posOfFirstUpper = save.find("'");
+	posOfSecondUpper = save.find("'", posOfFirstUpper + 1);
+	length = posOfSecondUpper - posOfFirstUpper - 1;
+
+	string command = save.substr(posOfFirstUpper + 1, length);
+
+	save.erase(0, posOfSecondUpper + 1);
+
+	posOfFirstUpper = save.find("'");
+	posOfSecondUpper = save.find("'", posOfFirstUpper + 1);
+	length = posOfSecondUpper - posOfFirstUpper - 1;
+
+	string description = save.substr(posOfFirstUpper + 1, length);
+
+	save.erase(0, posOfSecondUpper + 1);
+
+	cout << "command name: " << name ;
+	cout << "  command command: " << command ;
+	cout << "  command description: " << description.substr(0,10) << endl;
+
+	s_name = name;
+	s_command = command;
+	s_description = description;
+
+}
 
 
 

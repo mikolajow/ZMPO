@@ -9,9 +9,35 @@ int main() {
 
 
 
+	//string save = "('name')def";
+
+	//if (save[0] == '(')
+	//{
+	//	int posOfSecondBracket = save.find(")", 1);
+	//	string subSave = save.substr(0, posOfSecondBracket + 1);
+	//	cout << subSave << endl;
+
+
+	//	//vec->push_back(new CMenu());
+
+	//}//if dziecko to menu
 
 
 
+	//int posOfFirstUpper = save.find("'");
+	//int posOfSecondUpper = save.find("'", posOfFirstUpper + 1);
+
+	//int length = posOfSecondUpper - posOfFirstUpper - 1;
+
+	//string name = save.substr(posOfFirstUpper + 1, length);
+
+	//save.erase(posOfFirstUpper, posOfSecondUpper);
+
+
+
+
+	//cout << name << endl;
+	//cout << save << endl;
 
 	CConfig conf;
 

@@ -12,6 +12,8 @@ public:
 
 	CMenuCommand(string name, string command,  string info, CCommand *worker = NULL);
 
+	CMenuCommand(string save);
+
 	~CMenuCommand();
 
 	void run();
@@ -26,6 +28,7 @@ private:
 
 	string s_description;
 
+	void loadFromString(string save);
 };
 
 

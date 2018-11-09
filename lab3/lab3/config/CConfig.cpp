@@ -21,9 +21,9 @@ void CConfig::config() {
 
 
 
-	vector<CMenuItem*> vectorDeleteMenu;
+	vector<CMenuItem*> *vectorDeleteMenu = new vector<CMenuItem*>;
 
-	CMenu *deleteMenu = new CMenu("menu usuwania", "usuwanie", &vectorDeleteMenu);
+	CMenu *deleteMenu = new CMenu("menu usuwania", "usuwanie", vectorDeleteMenu);
 
 	deleteMenu->addNewItem(deleteChosenElementMenu);
 	deleteMenu->addNewItem(deleteAllMenu);
@@ -44,15 +44,15 @@ void CConfig::config() {
 
 
 
-	vector<CMenuItem*> vectorTest;
-	CMenu *test = new CMenu("testowe", "test", &vectorTest);
+	vector<CMenuItem*> *vectorTest =  new vector<CMenuItem*>;
+	CMenu *test = new CMenu("testowe", "test", vectorTest);
 	test->addNewItem(makeClearScreenCommand());
 
 
 
-	vector<CMenuItem*> vectorChangeMenu;
+	vector<CMenuItem*> *vectorChangeMenu = new vector<CMenuItem*>;
 
-	CMenu *changeMenu = new CMenu("menu zmian", "zmiana", &vectorChangeMenu);
+	CMenu *changeMenu = new CMenu("menu zmian", "zmiana", vectorChangeMenu);
 
 
 	changeMenu->addNewItem(test);
@@ -79,9 +79,9 @@ void CConfig::config() {
 
 
 
-	vector<CMenuItem*> vectorMainMenu;
+	vector<CMenuItem*> *vectorMainMenu = new vector<CMenuItem*>;
 
-	CMenu *mainMenu = new CMenu("Main Menu", "main", &vectorMainMenu);
+	CMenu *mainMenu = new CMenu("Main Menu", "main", vectorMainMenu);
 
 	mainMenu->addNewItem(deleteMenu);
 	mainMenu->addNewItem(changeMenu);
@@ -102,17 +102,21 @@ void CConfig::config() {
 
 
 	cout << endl << endl;
-	cout << mainMenu->saveToString() << endl;
+	string save = mainMenu->saveToString();
+	cout << save << endl << endl;;
 
+	CMenu *loaded = new CMenu(save);
+
+	loaded->run();
 	
-	mainMenu->run();
 
+	//mainMenu->run();
 
 
 	// DELETE ELEMENTS
 
 	delete mainMenu;
-
+	delete loaded;
 
 }//koniec metody config
 

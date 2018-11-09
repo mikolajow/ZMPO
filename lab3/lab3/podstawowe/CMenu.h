@@ -19,6 +19,8 @@ public:
 
 	CMenu(string name, string command, vector <CMenuItem*> *list);
 
+	CMenu(string save);
+
 	~CMenu();
 
 	void run(); // pobiera komende i jesli poprawna to wykonuje
@@ -58,7 +60,7 @@ private:
 
 	CMenu* findMain();
 
-
+	void loadFromString(string save);
 };
 
 
