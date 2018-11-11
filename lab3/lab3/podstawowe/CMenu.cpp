@@ -3,6 +3,7 @@
 #include <vector>
 #include "CMenu.h"
 #include "CMenuItem.h"
+#include "Windows.h"
 
 
 CMenu::CMenu(string name, string command, vector <CMenuItem*> *list): list(list) {
@@ -11,9 +12,16 @@ CMenu::CMenu(string name, string command, vector <CMenuItem*> *list): list(list)
 	parent = NULL;
 }//koniec konstruktora
 
-CMenu::CMenu(string save)
+CMenu::CMenu(string save, string original)
 {
-	loadFromString(save);
+	int success = loadFromString(save, original);
+	if (success == 0)
+	{
+		s_name = "blad stringa";
+		s_command = "blad stringa";
+		list = NULL;
+		save = "";
+	}
 }//konstruktor z save
 
 CMenu::~CMenu() {
@@ -287,78 +295,114 @@ string CMenu::saveToString(string save)
 
 	for (unsigned int i = 0; i < list->size(); i++)
 	{
-		save = (*(*list)[i]).saveToString(save) + ",";
+		if (i < list->size() - 1)
+		{
+			save = (*(*list)[i]).saveToString(save) + ",";
+		}
+		else
+		{
+			save = (*(*list)[i]).saveToString(save);
+		}
 	}//for wypisywanie dzieci 
 
 	return save + ")";
 }//koniec save to sttring
 
 
-void CMenu::loadFromString(string save)
+int CMenu::loadFromString(string save, string saveCoppy)
 {
 
-	string saveCoppy = save;
-
 	int posOfFirstUpper = save.find("'");
+	if (posOfFirstUpper == -1)
+	{
+		cout << "nie znaleziono otwierajacego ' przy tworzeniu nazwy " << endl;
+		return 0;
+	}
+
 	int posOfSecondUpper = save.find("'", posOfFirstUpper + 1);
+	if (posOfSecondUpper == -1)
+	{
+		cout << "nie znaleziono zamykajacego ' przy tworzeniu nazwy " << endl;
+		return 0;
+	}
 	int length = posOfSecondUpper - posOfFirstUpper - 1;
 	string name = save.substr(posOfFirstUpper + 1, length);
-
-	cout << "menu name: " << name ;
 
 	save.erase(0, posOfSecondUpper + 1);
 
 	posOfFirstUpper = save.find("'");
+	if (posOfFirstUpper == -1)
+	{
+		cout << "nie znaleziono otwierajacego ' przy tworzeniu komendy " << endl;
+		return 0;
+	}
 	posOfSecondUpper = save.find("'", posOfFirstUpper + 1);
+	if (posOfSecondUpper == -1)
+	{
+		cout << "nie znaleziono zamykajacego ' przy tworzeniu komendy " << endl;
+		return 0;
+	}
 	length = posOfSecondUpper - posOfFirstUpper - 1;
 
 	string command = save.substr(posOfFirstUpper + 1, length);
-	
-	cout << "   menu command: " <<  command << endl;
 
-	save.erase(0, posOfSecondUpper + 2);	//wymazuje drugi ' i dodatkowo ;
+	save.erase(0, posOfSecondUpper + 1);	//wymazuje drugi ' i dodatkowo ;
 
 	vector<CMenuItem*> *vec = new vector <CMenuItem*>;
 
 	while (!save.empty())
 	{
 
-
-
-
-
-
 		if (save[0] == '(')
 		{
+			int numberOfOpen = 1;
+			int numberOfClose = 0;
+
+			int posOfCurrentOpen = 0;
+
+			int posOfLastClose = save.find(")", 1);
+
+			int posOfNextOpenBracket = save.find("(", posOfCurrentOpen + 1);
 
 
-
-			int posOfNextOpenBracket = save.find("(", 1);
-
-			int posOfCloseBracket = save.find(")", 1);		//jak menu ma w sobie menu to znajde pierwszy zamykajacy wiec lipa :(
+			//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+			if (posOfNextOpenBracket == -1)
+				posOfNextOpenBracket = 9999999999;
 
 			do
 			{
 
-			} while (posOfCloseBracket > posOfNextOpenBracket);
+				if (posOfNextOpenBracket < posOfLastClose)
+				{
+					numberOfOpen++;
+
+					posOfCurrentOpen = posOfNextOpenBracket;
+					posOfNextOpenBracket = save.find("(", posOfCurrentOpen + 1);
 
 
 
-			string subSave = save.substr(0, posOfCloseBracket + 1);
+					//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+					if (posOfNextOpenBracket == -1)
+						posOfNextOpenBracket = 9999999999;
+
+					posOfLastClose = save.find(")", posOfLastClose + 1);
+				}
+				else 
+				{
+					numberOfClose++;
+				}
+				 
+			} while (numberOfOpen != numberOfClose);
 			
-			CMenu *child = new CMenu(subSave);
+			string subSave = save.substr(0, posOfLastClose + 1);
+
+			CMenu *child = new CMenu(subSave, saveCoppy);
 
 			vec->push_back(child);
 
-			save.erase(0, posOfCloseBracket + 1);
+			save.erase(0, posOfLastClose + 1);
 
 		}//if dziecko to menu
-
-
-
-
-
-
 
 		else if (save[0] == '[')
 		{
@@ -372,17 +416,27 @@ void CMenu::loadFromString(string save)
 			save.erase(0, posOfSecondBracket + 1);
 
 		}
-		else if (save[0] == ',')
+		else if (save[0] == ',' || save[0] == ')' || save[0] == ' ' || save[0] == ';' || save[0] == '	')
 		{
 			save.erase(0, 1);
 		}
 		else
 		{
 			cout << "zly string: " << save[0] << endl;
-			s_name = "blad stringa";
-			s_command = "blad stringa";
-			list = NULL;
-			save = "";
+
+			cout << "oczekiwano '[' lub '(' jako rozpoczecia nowego objektu Menu " << endl;
+
+			string firstPart = saveCoppy.substr(0, saveCoppy.find(save));
+
+			cout << firstPart;
+
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
+			cout << save[0];
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+
+			cout << saveCoppy.substr(firstPart.length() + 1, string::npos) << endl;
+
+			return 0;
 		}
 	}//while save empty
 
@@ -391,7 +445,28 @@ void CMenu::loadFromString(string save)
 	s_command = command;
 	list = vec;
 
+	return 1;
 }//koniec load from string
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

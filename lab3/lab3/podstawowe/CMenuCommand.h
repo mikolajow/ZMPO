@@ -28,7 +28,7 @@ private:
 
 	string s_description;
 
-	void loadFromString(string save);
+	int loadFromString(string save);
 };
 
 

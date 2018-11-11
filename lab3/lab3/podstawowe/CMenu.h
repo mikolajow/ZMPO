@@ -19,7 +19,7 @@ public:
 
 	CMenu(string name, string command, vector <CMenuItem*> *list);
 
-	CMenu(string save);
+	CMenu(string save, string original);
 
 	~CMenu();
 
@@ -60,7 +60,7 @@ private:
 
 	CMenu* findMain();
 
-	void loadFromString(string save);
+	int loadFromString(string save, string original);
 };
 
 

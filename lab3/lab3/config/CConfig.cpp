@@ -100,12 +100,17 @@ void CConfig::config() {
 
 	//mainMenu->printMenu(&vec);
 
+	string save;
 
 	cout << endl << endl;
-	string save = mainMenu->saveToString();
-	cout << save << endl << endl;;
+	//save = mainMenu->saveToString();
+	//cout << save << endl << endl;;
 
-	CMenu *loaded = new CMenu(save);
+	
+	save = "'Main Menu''main'('menu usuwania''usuwanie'['usun wybrane ctable', 'usun', 'wybierz tablice ktora ma zostac usunieta wprowadzajac jej index'], ['usun wszystkie', 'usun wszy', 'usun wszystkie tabele, po wybraniu metody nalezy potwierdzic wpisujac 1'], ['wyczysc ekran', 'cls', 'czysci ekran i wyswietla menu w ktorym aktualnie sie znajdujesz']), ('menu zmian', 'zmiana'; ('testowe', 'test'; ['wyczysc ekran', 'cls', 'czysci ekran i wyswietla menu w ktorym aktualnie sie znajdujesz']), ['zmien dlugosc tablicy', 'zmien dl', 'wybierz objekt ktoremu chcesz zmienic dlugosc tablicy, dlugosc mozna jedynie zwiekszyc, co ma uniemozliwic ewentualna utrate danych'], ['zmien nazwe wybranego ctable', 'zmien nazwe', 'wubierz tabele ktorej chcesz zmienic nazwe poprzez podanie indexu i nowej nazwy'], ['zmien jedna wartosc w tabeli', 'zmien wartosc', 'wybierz objekt wpisujac jego index nastepnie wybierz komorke w ktorej chcesz wprowadzic nowa wartosc'], ['wyczysc ekran', 'cls', 'czysci ekran i wyswietla menu w ktorym aktualnie sie znajdujesz']), ['dodaj nowe ctables', 'dodaj', 'utworz nowe tabele, zostana one domyslnie wypelnione zerami'], ['wyswietl informacje o objekcie', 'info', 'wyswietl informacje o wybranej tablicy'], ['klonuj i dodaj element', 'klonuj', 'podaj index tabeli ktora chcesz zklonowac, nazwa klona bedzie konczyc sie na _copy'], ['wyczysc ekran', 'cls', 'czysci ekran i wyswietla menu w ktorym aktualnie sie znajdujesz'])";
+	
+
+	CMenu *loaded = new CMenu(save, save);
 
 	loaded->run();
 	
