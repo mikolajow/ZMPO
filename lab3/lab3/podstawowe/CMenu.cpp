@@ -17,8 +17,8 @@ CMenu::CMenu(string save, string original)
 	int success = loadFromString(save, original);
 	if (success == 0)
 	{
-		s_name = "ERROR";
-		s_command = "ERROR";
+		s_name = S_ERROR;
+		s_command = S_ERROR;
 		list = new vector<CMenuItem*>;
 		save = "";
 	}
@@ -323,7 +323,7 @@ int CMenu::loadFromString(string save, string saveCoppy)
 	save.erase(0, 1);
 
 	string name = loadNameOrComm(save ,saveCoppy);
-	if (name == "ERROR")
+	if (name == S_ERROR)
 		return 0;
 
 	if (save[0] != ',')
@@ -334,7 +334,7 @@ int CMenu::loadFromString(string save, string saveCoppy)
 	save.erase(0, 1);
 
 	string command = loadNameOrComm(save, saveCoppy);
-	if (command == "ERROR")
+	if (command == S_ERROR)
 		return 0;
 
 	if (save[0] != ';')
@@ -414,7 +414,7 @@ int CMenu::loadFromString(string save, string saveCoppy)
 		}
 		else
 		{
-			showError(save[0], " ( lub [ jako poczatek menu/komendy ", save, saveCoppy);
+			showError(save[0], S_EXPECTED_OPEN_BRACKET, save, saveCoppy);
 			return 0;
 		}
 	}//while save empty
@@ -435,7 +435,7 @@ string CMenu::loadNameOrComm(string &save, string original)
 	if (save[0] != '\'')
 	{
 		showError(save[0], "'", save, original);
-		return "ERROR";
+		return S_ERROR;
 	}
 
 	int posOfFirstUpper = 0;
@@ -444,9 +444,9 @@ string CMenu::loadNameOrComm(string &save, string original)
 
 	if (posOfSecondUpper == -1 )
 	{
-		cout << "nie znaleziono zamykajacego ' " << endl;
+		cout << S_NO_CLOSE_UPPER << endl;
 		showError(save[0], "'", save, original);
-		return "ERROR";
+		return S_ERROR;
 	}
 
 	int length = posOfSecondUpper - posOfFirstUpper - 1;
@@ -459,13 +459,13 @@ string CMenu::loadNameOrComm(string &save, string original)
 
 void CMenu::showError(char wrong, string expected, string save, string saveCoppy)
 {
-	cout << "zly znak ";
+	cout << S_WRONG_CHAR;
 
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
 	cout << wrong;
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 
-	cout << " program spodziewal sie ";
+	cout << S_PROGRAM_EXPECTED;
 
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
 	cout << expected;

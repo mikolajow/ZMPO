@@ -12,6 +12,14 @@
 #define S_MENU_PREFIX  "  => "
 #define S_COMMAND_PREFIX "    -- "
 
+#define S_ERROR "ERROR"
+#define S_NO_CLOSE_UPPER "nie znaleziono zamykajacego ' "
+#define S_WRONG_CHAR  "zly znak "
+#define S_PROGRAM_EXPECTED " program spodziewal sie "
+#define S_EXPECTED_OPEN_BRACKET " ( lub [ jako poczatek menu/komendy "
+
+
+
 using namespace std;
 
 class CMenu : public CMenuItem {
