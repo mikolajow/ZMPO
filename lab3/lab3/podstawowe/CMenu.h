@@ -61,6 +61,11 @@ private:
 	CMenu* findMain();
 
 	int loadFromString(string save, string original);
+
+	string loadNameOrComm(string &save, string original);
+
+	void showError(char wrong, string expected, string save, string saveCoppy);
+
 };
 
 

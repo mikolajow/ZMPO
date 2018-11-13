@@ -4,7 +4,7 @@
 #include "CMenu.h"
 #include "CMenuItem.h"
 #include "Windows.h"
-
+#include <limits>
 
 CMenu::CMenu(string name, string command, vector <CMenuItem*> *list): list(list) {
 	s_name = name;
@@ -17,9 +17,9 @@ CMenu::CMenu(string save, string original)
 	int success = loadFromString(save, original);
 	if (success == 0)
 	{
-		s_name = "blad stringa";
-		s_command = "blad stringa";
-		list = NULL;
+		s_name = "ERROR";
+		s_command = "ERROR";
+		list = new vector<CMenuItem*>;
 		save = "";
 	}
 }//konstruktor z save
@@ -309,44 +309,40 @@ string CMenu::saveToString(string save)
 }//koniec save to sttring
 
 
+
+
+
+
 int CMenu::loadFromString(string save, string saveCoppy)
 {
-
-	int posOfFirstUpper = save.find("'");
-	if (posOfFirstUpper == -1)
+	if (save[0] != '(')
 	{
-		cout << "nie znaleziono otwierajacego ' przy tworzeniu nazwy " << endl;
+		showError(save[0], "(", save, saveCoppy);
 		return 0;
 	}
+	save.erase(0, 1);
 
-	int posOfSecondUpper = save.find("'", posOfFirstUpper + 1);
-	if (posOfSecondUpper == -1)
+	string name = loadNameOrComm(save ,saveCoppy);
+	if (name == "ERROR")
+		return 0;
+
+	if (save[0] != ',')
 	{
-		cout << "nie znaleziono zamykajacego ' przy tworzeniu nazwy " << endl;
+		showError(save[0], ",", save, saveCoppy);
 		return 0;
 	}
-	int length = posOfSecondUpper - posOfFirstUpper - 1;
-	string name = save.substr(posOfFirstUpper + 1, length);
+	save.erase(0, 1);
 
-	save.erase(0, posOfSecondUpper + 1);
+	string command = loadNameOrComm(save, saveCoppy);
+	if (command == "ERROR")
+		return 0;
 
-	posOfFirstUpper = save.find("'");
-	if (posOfFirstUpper == -1)
+	if (save[0] != ';')
 	{
-		cout << "nie znaleziono otwierajacego ' przy tworzeniu komendy " << endl;
+		showError(save[0], ";", save, saveCoppy);
 		return 0;
 	}
-	posOfSecondUpper = save.find("'", posOfFirstUpper + 1);
-	if (posOfSecondUpper == -1)
-	{
-		cout << "nie znaleziono zamykajacego ' przy tworzeniu komendy " << endl;
-		return 0;
-	}
-	length = posOfSecondUpper - posOfFirstUpper - 1;
-
-	string command = save.substr(posOfFirstUpper + 1, length);
-
-	save.erase(0, posOfSecondUpper + 1);	//wymazuje drugi ' i dodatkowo ;
+	save.erase(0, 1);
 
 	vector<CMenuItem*> *vec = new vector <CMenuItem*>;
 
@@ -365,9 +361,8 @@ int CMenu::loadFromString(string save, string saveCoppy)
 			int posOfNextOpenBracket = save.find("(", posOfCurrentOpen + 1);
 
 
-			//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 			if (posOfNextOpenBracket == -1)
-				posOfNextOpenBracket = 9999999999;
+				posOfNextOpenBracket = INT_MAX;
 
 			do
 			{
@@ -379,11 +374,8 @@ int CMenu::loadFromString(string save, string saveCoppy)
 					posOfCurrentOpen = posOfNextOpenBracket;
 					posOfNextOpenBracket = save.find("(", posOfCurrentOpen + 1);
 
-
-
-					//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 					if (posOfNextOpenBracket == -1)
-						posOfNextOpenBracket = 9999999999;
+						posOfNextOpenBracket = INT_MAX;
 
 					posOfLastClose = save.find(")", posOfLastClose + 1);
 				}
@@ -409,33 +401,20 @@ int CMenu::loadFromString(string save, string saveCoppy)
 			int posOfSecondBracket = save.find("]", 1);
 			string subSave = save.substr(0, posOfSecondBracket + 1);
 
-			CMenuCommand *child = new CMenuCommand(subSave);
+			CMenuCommand *child = new CMenuCommand(subSave, saveCoppy);
 
 			vec->push_back(child);
 
 			save.erase(0, posOfSecondBracket + 1);
 
 		}
-		else if (save[0] == ',' || save[0] == ')' || save[0] == ' ' || save[0] == ';' || save[0] == '	')
+		else if (save[0] == ',' || save[0] == ')' || save[0] == ' ' || save[0] == '	')
 		{
 			save.erase(0, 1);
 		}
 		else
 		{
-			cout << "zly string: " << save[0] << endl;
-
-			cout << "oczekiwano '[' lub '(' jako rozpoczecia nowego objektu Menu " << endl;
-
-			string firstPart = saveCoppy.substr(0, saveCoppy.find(save));
-
-			cout << firstPart;
-
-			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
-			cout << save[0];
-			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
-
-			cout << saveCoppy.substr(firstPart.length() + 1, string::npos) << endl;
-
+			showError(save[0], " ( lub [ jako poczatek menu/komendy ", save, saveCoppy);
 			return 0;
 		}
 	}//while save empty
@@ -449,14 +428,62 @@ int CMenu::loadFromString(string save, string saveCoppy)
 }//koniec load from string
 
 
+string CMenu::loadNameOrComm(string &save, string original)
+{
+	string saveCoppy = save;
 
+	if (save[0] != '\'')
+	{
+		showError(save[0], "'", save, original);
+		return "ERROR";
+	}
 
+	int posOfFirstUpper = 0;
 
+	int posOfSecondUpper = save.find("'", posOfFirstUpper + 1);
 
+	if (posOfSecondUpper == -1 )
+	{
+		cout << "nie znaleziono zamykajacego ' " << endl;
+		showError(save[0], "'", save, original);
+		return "ERROR";
+	}
 
+	int length = posOfSecondUpper - posOfFirstUpper - 1;
+	string name = save.substr(posOfFirstUpper + 1, length);
 
+	save.erase(0, posOfSecondUpper + 1);
 
+	return name;
+}
 
+void CMenu::showError(char wrong, string expected, string save, string saveCoppy)
+{
+	cout << "zly znak ";
+
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
+	cout << wrong;
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+
+	cout << " program spodziewal sie ";
+
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
+	cout << expected;
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+
+	cout << endl;
+
+	string firstPart = saveCoppy.substr(0, saveCoppy.find(save));
+
+	cout << firstPart;
+
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
+	cout << save[0];
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+
+	cout << saveCoppy.substr(firstPart.length() + 1, string::npos) << endl;
+
+}
 
 
 
