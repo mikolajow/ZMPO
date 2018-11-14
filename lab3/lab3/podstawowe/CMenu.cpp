@@ -344,6 +344,15 @@ int CMenu::loadFromString(string save, string saveCoppy)
 	}
 	save.erase(0, 1);
 
+
+
+	////@@@@@@@@@@@@@ MODYFIKACJA
+	//int noumberOfChilds = ((int)save[0]) - 48;
+	//save.erase(0, 1);
+	////@@@@@@@@@@@@@ MODYFIKACJA
+
+
+
 	vector<CMenuItem*> *vec = new vector <CMenuItem*>;
 
 	while (!save.empty())
@@ -418,6 +427,26 @@ int CMenu::loadFromString(string save, string saveCoppy)
 			return 0;
 		}
 	}//while save empty
+
+
+
+
+
+	//	//@@@@@@@@@@@@@ MODYFIKACJA
+	//int elemsInVec = vec->size();
+
+	//if (noumberOfChilds == elemsInVec)
+	//{
+	//	cout << "tyle samo dzieci " << name << endl;
+	//}
+	//else
+	//{
+	//	cout << "inna liczba dzieci " << name << endl;
+	//}
+	////@@@@@@@@@@@@@ MODYFIKACJA
+
+
+
 
 
 	s_name = name;
