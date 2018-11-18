@@ -12,7 +12,7 @@ public:
 
 	~CGeneticAlgorithm();
 
-	CIndividual* run(int iterationNumber);
+	CIndividual* run();
 
 private:
 
@@ -21,12 +21,16 @@ private:
 	int populationSize;
 
 	CKnapsackProblem *knapsackProblem;
-	vector<CIndividual*> population;
+	vector<CIndividual*> *population;
 
 
 	//METODY
 
 	void generateStartingPopulation();
+
+	int giveRandomIndex();
+
+	double giveRandomProbability();
 
 	void deletePopulation();
 

@@ -12,10 +12,12 @@ public:
 	~CIndividual();
 
 	int* getGenotype();
+	double getFitness();
+	int getNumberOfGenes();
 
+	void mutate(int index);//
 
-	//vector<CIndividual*>* crossWith(CIndividual &secondParent);
-
+	vector<CIndividual*>* crossWith(CIndividual &secondParent);//
 
 private:
 	//SKLADOWE
@@ -26,9 +28,7 @@ private:
 
 
 	//METODY
-	void mutate(int index);//
 
-	vector<CIndividual*>* crossWith(CIndividual &secondParent);//
 
 	void updateFitness();//
 

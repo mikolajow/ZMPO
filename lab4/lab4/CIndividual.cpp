@@ -76,14 +76,17 @@ int CIndividual::giveRandomNumber(int from, int to)
 }
 
 int* CIndividual::getGenotype() { return genotype; }
+double CIndividual::getFitness() { return fitness; }
+int CIndividual::getNumberOfGenes() { return numberOfGenes; }
 
 
 vector<CIndividual*>* CIndividual::crossWith(CIndividual &secondParent)
 {
-	CIndividual *firstParent = this;
-	CKnapsackProblem *currentKnProblem = this->knapsackProblem;
 
 	vector<CIndividual*> *childrens = new vector<CIndividual*>;
+
+	CIndividual *firstParent = this;
+	CKnapsackProblem *currentKnProblem = this->knapsackProblem;
 
 	int cutPlace = giveRandomNumber(1, numberOfGenes - 1);
 

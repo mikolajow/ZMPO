@@ -49,10 +49,15 @@ int main()
 	delete alg;
 
 
+	double prob = 0;
 
+	random_device rd;  //Will be used to obtain a seed for the random number engine
+	mt19937 generator(rd()); //Standard mersenne_twister_engine seeded with rd()
+	uniform_int_distribution<> generuj(0, 100000);
+	prob = generuj(generator);
 
-
-
+	cout << "prawdopodobienstwo wynosi = " << prob  <<"podzielone na 100000" << endl;
+	cout << prob / 100000 << endl;
 
 
 
