@@ -41,12 +41,12 @@ int main()
 
 
 
-	CGeneticAlgorithm *alg = new CGeneticAlgorithm(0.22, 0.11, 22, problem);
+	CGeneticAlgorithm *alg = new CGeneticAlgorithm(0.22, 0.11, 23, problem);
 
 
 
 
-
+	delete alg;
 
 
 

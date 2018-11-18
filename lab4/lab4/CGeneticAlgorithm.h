@@ -28,5 +28,7 @@ private:
 
 	void generateStartingPopulation();
 
+	void deletePopulation();
+
 };
 

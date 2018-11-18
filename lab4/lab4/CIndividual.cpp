@@ -22,7 +22,7 @@ CIndividual::CIndividual(CKnapsackProblem *knapsackP, int *gen)
 
 CIndividual::~CIndividual()
 {
-	delete genotype;
+	delete[] genotype;
 }
 
 
