@@ -90,13 +90,28 @@ vector<CIndividual*>* CIndividual::crossWith(CIndividual &secondParent)
 	int *firstChildGenothype = new int[numberOfGenes];
 	int *secondChildGenothype = new int[numberOfGenes];
 
+	//first genotype part
 	for (int i = 0; i < cutPlace; i++)
 	{
-
+		firstChildGenothype[i] = firstParent->getGenotype()[i];
+		secondChildGenothype[i] = secondParent.getGenotype()[i];
 	}
 
+	//second genotype part
+	for (int i = cutPlace; i < numberOfGenes; i++)
+	{
+		firstChildGenothype[i] = secondParent.getGenotype()[i];
+		secondChildGenothype[i] = firstParent->getGenotype()[i];
+	}
 
+	CIndividual *fstChild = new CIndividual(this->knapsackProblem, firstChildGenothype);
+	CIndividual *sndChild = new CIndividual(this->knapsackProblem, secondChildGenothype);
 	
+	childrens->push_back(fstChild);
+	childrens->push_back(sndChild);
+
+	//cout << "cut place = " << cutPlace << endl;
+
 	return childrens;
 }
 

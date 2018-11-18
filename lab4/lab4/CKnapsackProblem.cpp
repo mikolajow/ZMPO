@@ -10,19 +10,6 @@ CKnapsackProblem::CKnapsackProblem(vector<CItem*> *vec, double bagCapa)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 //GETTERS	
 
 int CKnapsackProblem::getNumberOfItems() { return numberOfItems; }

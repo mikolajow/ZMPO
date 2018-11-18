@@ -2,7 +2,8 @@
 #include <iostream>
 //#include "CKnapsackProblem.h"
 #include <random>
-#include "CIndividual.h"
+//#include "CIndividual.h"
+#include "CGeneticAlgorithm.h"
 
 using namespace std;
 
@@ -18,8 +19,6 @@ int main()
 	CItem *b = new CItem("b", 2, 2);
 	CItem *c = new CItem("c", 3, 3);
 
-
-
 	vector<CItem*> itemList;
 	itemList.push_back(banana);
 	itemList.push_back(a);
@@ -32,10 +31,45 @@ int main()
 
 	int *genotyp = fstOsobnik->getGenotype();
 
-	cout << genotyp[0] << endl;
-	cout << genotyp[1] << endl;
-	cout << genotyp[2] << endl;
-	cout << genotyp[3] << endl;
+	cout << "genotyp pierwszego: " << genotyp[0] << genotyp[1] << genotyp[2] << genotyp[3] << endl;
+
+	CIndividual *sndOsobnik = new CIndividual(problem);
+
+	int *drugiGenotyp = sndOsobnik->getGenotype();
+
+	cout << "genotyp drugiego: " << drugiGenotyp[0] << drugiGenotyp[1] << drugiGenotyp[2] << drugiGenotyp[3] << endl;
+
+
+
+	CGeneticAlgorithm *alg = new CGeneticAlgorithm(0.22, 0.11, 22, problem);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	//vector<CIndividual*> *vec = fstOsobnik->crossWith(*sndOsobnik);
+
+	//CIndividual *child1 = (*vec)[0];
+	//CIndividual *child2 = (*vec)[1];
+
+	//int *child1geno = child1->getGenotype();
+	//int *child2geno = child2->getGenotype();
+
+	//cout << "genotyp dziecka 1: " << child1geno[0] << child1geno[1] << child1geno[2] << child1geno[3] << endl;
+	//cout << "genotyp dziecka 2: " << child2geno[0] << child2geno[1] << child2geno[2] << child2geno[3] << endl;
 
 	string n;
 	cin >> n;

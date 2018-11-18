@@ -13,6 +13,10 @@ public:
 
 	int* getGenotype();
 
+
+	//vector<CIndividual*>* crossWith(CIndividual &secondParent);
+
+
 private:
 	//SKLADOWE
 	int numberOfGenes;
@@ -24,9 +28,7 @@ private:
 	//METODY
 	void mutate(int index);//
 
-	vector<CIndividual*>* crossWith(CIndividual &secondParent);
-
-
+	vector<CIndividual*>* crossWith(CIndividual &secondParent);//
 
 	void updateFitness();//
 
