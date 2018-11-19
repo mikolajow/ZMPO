@@ -12,25 +12,33 @@ using namespace std;
 int main()
 {
 
-	cout << "main" << endl;
+	// TEST 2
 
-	CItem *banana = new CItem("1", 5, 4);
-	CItem *a = new CItem("2", 1, 1);
-	CItem *b = new CItem("3", 4, 3);
-	CItem *c = new CItem("4", 3, 2);
+	CItem *a = new CItem("1", 3, 5);
+	CItem *b = new CItem("2", 10, 12);
+	CItem *c = new CItem("3", 8, 10);
+	CItem *d = new CItem("4", 6, 7);
+	CItem *e = new CItem("5", 2, 1);
+	CItem *f = new CItem("6", 9, 11);
+
+
 
 	vector<CItem*> itemList;
-	itemList.push_back(banana);
 	itemList.push_back(a);
 	itemList.push_back(b);
 	itemList.push_back(c);
-
-	CKnapsackProblem *problem = new CKnapsackProblem(&itemList, 5.);
-
-
-	CGeneticAlgorithm *alg = new CGeneticAlgorithm(0.22, 0.11, 24, problem);
+	itemList.push_back(d);
+	itemList.push_back(e);
+	itemList.push_back(f);
 
 
+
+
+
+
+	CKnapsackProblem *problem = new CKnapsackProblem(&itemList, 20.);
+
+	CGeneticAlgorithm *alg = new CGeneticAlgorithm(0.3, 0.3, 15, problem);
 
 	alg->run();
 
@@ -42,6 +50,32 @@ int main()
 
 
 
+
+
+
+
+
+	////TEST 1
+
+	//CItem *banana = new CItem("1", 4, 5);
+	//CItem *a = new CItem("2", 1, 1);
+	//CItem *b = new CItem("3", 3, 4);
+	//CItem *c = new CItem("4", 2, 3);
+
+	//vector<CItem*> itemList;
+	//itemList.push_back(banana);
+	//itemList.push_back(a);
+	//itemList.push_back(b);
+	//itemList.push_back(c);
+
+	//CKnapsackProblem *problem = new CKnapsackProblem(&itemList, 5.);
+
+
+	//CGeneticAlgorithm *alg = new CGeneticAlgorithm(0.3, 0.3, 24, problem);
+
+
+
+	//alg->run();
 
 
 
@@ -102,10 +136,15 @@ int main()
 	//cout << "genotyp dziecka 1: " << child1geno[0] << child1geno[1] << child1geno[2] << child1geno[3] << endl;
 	//cout << "genotyp dziecka 2: " << child2geno[0] << child2geno[1] << child2geno[2] << child2geno[3] << endl;
 
-	string n;
-	cin >> n;
 
-	return 0;
+
+
+
+
+	//string n;
+	//cin >> n;
+
+	//return 0;
 }//koniec main
 
 

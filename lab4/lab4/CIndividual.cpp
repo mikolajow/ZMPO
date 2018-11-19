@@ -22,7 +22,6 @@ CIndividual::CIndividual(CKnapsackProblem *knapsackP, int *gen)
 CIndividual::CIndividual(CIndividual &orginal)
 {
 	numberOfGenes = orginal.getNumberOfGenes();
-	fitness = orginal.getFitness();
 	knapsackProblem = orginal.getKnapsackProblem();
 	genotype = new int[numberOfGenes];
 	int *orginalGenothype = orginal.getGenotype();
@@ -30,6 +29,7 @@ CIndividual::CIndividual(CIndividual &orginal)
 	{
 		genotype[i] = orginalGenothype[i];
 	}
+	updateFitness();
 }
 
 CIndividual::~CIndividual()
@@ -48,6 +48,7 @@ void CIndividual::mutate(int index)
 	{
 		genotype[index] = 0;
 	}
+	updateFitness();
 }//koniec mutacji
 
 void CIndividual::updateFitness()
@@ -134,13 +135,16 @@ string CIndividual::toString()
 {
 	string description = "wybrano objekty o numerach: ";
 	int currentNumber;
+	CItem *currentItem;
 
 	for (int i = 0; i < numberOfGenes; i++)
 	{
 		if (genotype[i] == 1)
 		{
 			currentNumber = i + 1;
-			description = description + to_string(currentNumber) + ", ";
+			currentItem = (*knapsackProblem->getItemList())[i];
+			cout <<"name = "<< currentItem->getName() << " weight = "<<currentItem->getWeight() <<" value = "<< currentItem->getValue() << endl;
+			description = description + currentItem->getName() + ", ";
 		}
 	}
 	description = description + " o lacznej wartosci " + to_string(fitness);

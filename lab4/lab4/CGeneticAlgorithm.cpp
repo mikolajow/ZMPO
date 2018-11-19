@@ -53,15 +53,12 @@ CIndividual* CGeneticAlgorithm::run()
 		cout << "wprowadz liczbe iteracji " << endl;
 		cin >> iterationNumber;
 
-
 		for (int i = 0; i < iterationNumber; i++)
 		{
 			newPopulation = new vector<CIndividual*>;
 
 			while (newPopulation->size() != populationSize)
 			{
-
-
 
 				int indexOfFirstParent;
 				int indexOfFirstCandidate = giveRandomIndex();
@@ -130,41 +127,16 @@ CIndividual* CGeneticAlgorithm::run()
 			}//koniec while - wypelnianie nowej populacji
 
 
-			//MUTOWANIE NOWEJ POPULACJI
-			int mutationProb;
-
-			for (unsigned int i = 0; i < newPopulation->size(); i++)
-			{
-				CIndividual *currentIndividual = (*newPopulation)[i];
-				for (int j = 0; j < currentIndividual->getNumberOfGenes(); j++)
-				{
-					mutationProb = giveRandomProbability();
-					if (mutationProb<=mutationProbability)
-					{
-						currentIndividual->mutate(j);
-					}
-				}
-
-			}//koniec mutowania osobnikow
-
 			deletePopulation();
 
 			population = newPopulation;
 
+			//MUTOWANIE NOWEJ POPULACJI
+			mutatePopulation();
+
 		}//for (int i = 0; i < iterationNumber; i++)
 
-
-		bestOne = (*population)[0];
-
-		//find best one
-		for (int i = 0; i < population->size(); i++)
-		{
-			CIndividual *current = (*population)[i];
-			if (current->getFitness() > bestOne->getFitness())
-			{
-				bestOne = current;
-			}
-		}
+		bestOne = findBestOne();
 
 		cout << "najlepszy wynik to" << endl;
 		cout << bestOne->toString() << endl;
@@ -173,18 +145,6 @@ CIndividual* CGeneticAlgorithm::run()
 		cout << "wprowadz 0 dla zatrzymania dzialania inna liczbe dla ponownego przebiegu " << endl;
 		cin >> shallIFinish;
 	} while (shallIFinish != 0);
-
-	bestOne = (*population)[0];
-
-	//find best one
-	for (int i = 0; i < population->size(); i++)
-	{
-		CIndividual *current = (*population)[i];
-		if (current->getFitness() > bestOne->getFitness())
-		{
-			bestOne = current;
-		}
-	}
 
 	return bestOne;
 }
@@ -220,9 +180,37 @@ void CGeneticAlgorithm::deletePopulation()
 }
 
 
+void CGeneticAlgorithm::mutatePopulation()
+{
+	int mutationProb;
 
+	for (unsigned int i = 0; i < population->size(); i++)
+	{
+		CIndividual *currentIndividual = (*population)[i];
+		for (int j = 0; j < currentIndividual->getNumberOfGenes(); j++)
+		{
+			mutationProb = giveRandomProbability();
+			if (mutationProb <= mutationProbability)
+			{
+				currentIndividual->mutate(j);
+			}//if (mutationProb<=mutationProbability)
+		}//(int j = 0; j < currentIndividual->getNumberOfGenes(); j++)
+	}//koniec mutowania osobnikow
+}
 
-
+CIndividual* CGeneticAlgorithm::findBestOne()
+{
+	CIndividual *bestOne = (*population)[0];
+	for (int i = 0; i < population->size(); i++)
+	{
+		CIndividual *current = (*population)[i];
+		if (current->getFitness() > bestOne->getFitness())
+		{
+			bestOne = current;
+		}
+	}
+	return bestOne;
+}
 
 
 

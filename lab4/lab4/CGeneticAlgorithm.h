@@ -34,5 +34,9 @@ private:
 
 	void deletePopulation();
 
+	void mutatePopulation();
+
+	CIndividual* findBestOne();
+
 };
 
