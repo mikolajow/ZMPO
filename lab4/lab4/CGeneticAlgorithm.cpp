@@ -43,18 +43,20 @@ CIndividual* CGeneticAlgorithm::run()
 	CIndividual *firstCandidate;
 	CIndividual *secondCandidate;
 
-	vector<CIndividual*> *newPopulation = new vector<CIndividual*>;
+	vector<CIndividual*> *newPopulation;
 
 	int shallIFinish = 0;
 
 
 	do
 	{
+		cout << "wprowadz liczbe iteracji " << endl;
 		cin >> iterationNumber;
 
 
 		for (int i = 0; i < iterationNumber; i++)
 		{
+			newPopulation = new vector<CIndividual*>;
 
 			while (newPopulation->size() != populationSize)
 			{
@@ -117,14 +119,13 @@ CIndividual* CGeneticAlgorithm::run()
 					vector<CIndividual*> *childrens = firstParent->crossWith(*secondParent);
 					newPopulation->push_back((*childrens)[0]);
 					newPopulation->push_back((*childrens)[1]);
-					delete (*childrens)[0];
-					delete (*childrens)[1];
 					delete childrens;
 				}
 				else
 				{
-					newPopulation->push_back(firstParent);
-					newPopulation->push_back(secondParent);
+					//TRZEBA ZROBIC KOPIE BO ORGINALY USUWANE PO STWORZENIU NOWEJ POPULACJI
+					newPopulation->push_back(new CIndividual(*firstParent));
+					newPopulation->push_back(new CIndividual(*secondParent));
 				}
 			}//koniec while - wypelnianie nowej populacji
 
@@ -152,6 +153,21 @@ CIndividual* CGeneticAlgorithm::run()
 
 		}//for (int i = 0; i < iterationNumber; i++)
 
+
+		bestOne = (*population)[0];
+
+		//find best one
+		for (int i = 0; i < population->size(); i++)
+		{
+			CIndividual *current = (*population)[i];
+			if (current->getFitness() > bestOne->getFitness())
+			{
+				bestOne = current;
+			}
+		}
+
+		cout << "najlepszy wynik to" << endl;
+		cout << bestOne->toString() << endl;
 
 
 		cout << "wprowadz 0 dla zatrzymania dzialania inna liczbe dla ponownego przebiegu " << endl;
@@ -183,7 +199,6 @@ int CGeneticAlgorithm::giveRandomIndex()
 	return generuj(generator);
 }
 
-
 double CGeneticAlgorithm::giveRandomProbability()
 {
 	double prob = 0;
@@ -194,8 +209,6 @@ double CGeneticAlgorithm::giveRandomProbability()
 	return prob/100000;
 }
 
-
-
 void CGeneticAlgorithm::deletePopulation()
 {
 	for (unsigned int i = 0; i < population->size(); i++)
@@ -205,6 +218,11 @@ void CGeneticAlgorithm::deletePopulation()
 	population->clear();
 	delete population;
 }
+
+
+
+
+
 
 
 

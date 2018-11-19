@@ -14,10 +14,10 @@ int main()
 
 	cout << "main" << endl;
 
-	CItem *banana = new CItem("banan", 22.2, 33.2);
-	CItem *a = new CItem("a", 1, 1);
-	CItem *b = new CItem("b", 2, 2);
-	CItem *c = new CItem("c", 3, 3);
+	CItem *banana = new CItem("1", 5, 4);
+	CItem *a = new CItem("2", 1, 1);
+	CItem *b = new CItem("3", 4, 3);
+	CItem *c = new CItem("4", 3, 2);
 
 	vector<CItem*> itemList;
 	itemList.push_back(banana);
@@ -25,45 +25,71 @@ int main()
 	itemList.push_back(b);
 	itemList.push_back(c);
 
-	CKnapsackProblem *problem = new CKnapsackProblem(&itemList, 40.);
+	CKnapsackProblem *problem = new CKnapsackProblem(&itemList, 5.);
 
-	CIndividual *fstOsobnik = new CIndividual(problem);
 
-	int *genotyp = fstOsobnik->getGenotype();
-
-	cout << "genotyp pierwszego: " << genotyp[0] << genotyp[1] << genotyp[2] << genotyp[3] << endl;
-
-	CIndividual *sndOsobnik = new CIndividual(problem);
-
-	int *drugiGenotyp = sndOsobnik->getGenotype();
-
-	cout << "genotyp drugiego: " << drugiGenotyp[0] << drugiGenotyp[1] << drugiGenotyp[2] << drugiGenotyp[3] << endl;
+	CGeneticAlgorithm *alg = new CGeneticAlgorithm(0.22, 0.11, 24, problem);
 
 
 
-	CGeneticAlgorithm *alg = new CGeneticAlgorithm(0.22, 0.11, 23, problem);
-
-
-
-
-	delete alg;
-
-
-	double prob = 0;
-
-	random_device rd;  //Will be used to obtain a seed for the random number engine
-	mt19937 generator(rd()); //Standard mersenne_twister_engine seeded with rd()
-	uniform_int_distribution<> generuj(0, 100000);
-	prob = generuj(generator);
-
-	cout << "prawdopodobienstwo wynosi = " << prob  <<"podzielone na 100000" << endl;
-	cout << prob / 100000 << endl;
+	alg->run();
 
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	//CIndividual *fstOsobnik = new CIndividual(problem);
+
+//int *genotyp = fstOsobnik->getGenotype();
+
+//cout << "genotyp pierwszego: " << genotyp[0] << genotyp[1] << genotyp[2] << genotyp[3] << endl;
+
+//CIndividual *sndOsobnik = new CIndividual(problem);
+
+//int *drugiGenotyp = sndOsobnik->getGenotype();
+
+//cout << "genotyp drugiego: " << drugiGenotyp[0] << drugiGenotyp[1] << drugiGenotyp[2] << drugiGenotyp[3] << endl;
+
+
+
+
+
+	//delete alg;
+
+
+	//double prob = 0;
+
+	//random_device rd;  //Will be used to obtain a seed for the random number engine
+	//mt19937 generator(rd()); //Standard mersenne_twister_engine seeded with rd()
+	//uniform_int_distribution<> generuj(0, 100000);
+	//prob = generuj(generator);
+
+	//cout << "prawdopodobienstwo wynosi = " << prob  <<"podzielone na 100000" << endl;
+	//cout << prob / 100000 << endl;
 
 	//vector<CIndividual*> *vec = fstOsobnik->crossWith(*sndOsobnik);
 

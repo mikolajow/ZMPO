@@ -19,6 +19,18 @@ CIndividual::CIndividual(CKnapsackProblem *knapsackP, int *gen)
 	updateFitness();
 }
 
+CIndividual::CIndividual(CIndividual &orginal)
+{
+	numberOfGenes = orginal.getNumberOfGenes();
+	fitness = orginal.getFitness();
+	knapsackProblem = orginal.getKnapsackProblem();
+	genotype = new int[numberOfGenes];
+	int *orginalGenothype = orginal.getGenotype();
+	for (int i = 0; i < numberOfGenes; i++)
+	{
+		genotype[i] = orginalGenothype[i];
+	}
+}
 
 CIndividual::~CIndividual()
 {
@@ -78,7 +90,7 @@ int CIndividual::giveRandomNumber(int from, int to)
 int* CIndividual::getGenotype() { return genotype; }
 double CIndividual::getFitness() { return fitness; }
 int CIndividual::getNumberOfGenes() { return numberOfGenes; }
-
+CKnapsackProblem* CIndividual::getKnapsackProblem() { return knapsackProblem; }
 
 vector<CIndividual*>* CIndividual::crossWith(CIndividual &secondParent)
 {
@@ -88,7 +100,7 @@ vector<CIndividual*>* CIndividual::crossWith(CIndividual &secondParent)
 	CIndividual *firstParent = this;
 	CKnapsackProblem *currentKnProblem = this->knapsackProblem;
 
-	int cutPlace = giveRandomNumber(1, numberOfGenes - 1);
+	int cutPlace = giveRandomNumber(1, numberOfGenes -1);
 
 	int *firstChildGenothype = new int[numberOfGenes];
 	int *secondChildGenothype = new int[numberOfGenes];
@@ -118,7 +130,22 @@ vector<CIndividual*>* CIndividual::crossWith(CIndividual &secondParent)
 	return childrens;
 }
 
+string CIndividual::toString()
+{
+	string description = "wybrano objekty o numerach: ";
+	int currentNumber;
 
+	for (int i = 0; i < numberOfGenes; i++)
+	{
+		if (genotype[i] == 1)
+		{
+			currentNumber = i + 1;
+			description = description + to_string(currentNumber) + ", ";
+		}
+	}
+	description = description + " o lacznej wartosci " + to_string(fitness);
+	return description;
+}
 
 
 

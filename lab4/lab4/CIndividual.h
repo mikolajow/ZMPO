@@ -8,14 +8,18 @@ class CIndividual
 public:
 	CIndividual(CKnapsackProblem *knapsackP);
 	CIndividual(CKnapsackProblem *knapsackP, int *gen);
+	CIndividual(CIndividual &orginal);
 
 	~CIndividual();
 
 	int* getGenotype();
 	double getFitness();
 	int getNumberOfGenes();
+	CKnapsackProblem* getKnapsackProblem();
 
 	void mutate(int index);//
+
+	string toString();
 
 	vector<CIndividual*>* crossWith(CIndividual &secondParent);//
 
