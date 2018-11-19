@@ -134,14 +134,12 @@ vector<CIndividual*>* CIndividual::crossWith(CIndividual &secondParent)
 string CIndividual::toString()
 {
 	string description = "wybrano objekty o numerach: ";
-	int currentNumber;
 	CItem *currentItem;
 
 	for (int i = 0; i < numberOfGenes; i++)
 	{
 		if (genotype[i] == 1)
 		{
-			currentNumber = i + 1;
 			currentItem = (*knapsackProblem->getItemList())[i];
 			cout <<"name = "<< currentItem->getName() << " weight = "<<currentItem->getWeight() <<" value = "<< currentItem->getValue() << endl;
 			description = description + currentItem->getName() + ", ";

@@ -1,8 +1,6 @@
 #include <string>
 #include <iostream>
-//#include "CKnapsackProblem.h"
 #include <random>
-//#include "CIndividual.h"
 #include "CGeneticAlgorithm.h"
 
 using namespace std;
@@ -36,9 +34,10 @@ int main()
 
 
 
+
 	CKnapsackProblem *problem = new CKnapsackProblem(&itemList, 20.);
 
-	CGeneticAlgorithm *alg = new CGeneticAlgorithm(0.3, 0.3, 15, problem);
+	CGeneticAlgorithm *alg = new CGeneticAlgorithm(0.2, 0.4, 40, problem);
 
 	alg->run();
 

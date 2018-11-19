@@ -50,7 +50,7 @@ CIndividual* CGeneticAlgorithm::run()
 
 	do
 	{
-		cout << "wprowadz liczbe iteracji " << endl;
+		cout << S_GIVE_ITERATION_NUMBER << endl;
 		cin >> iterationNumber;
 
 		for (int i = 0; i < iterationNumber; i++)
@@ -114,8 +114,14 @@ CIndividual* CGeneticAlgorithm::run()
 				if (crossProb <= crossProbability)
 				{
 					vector<CIndividual*> *childrens = firstParent->crossWith(*secondParent);
-					newPopulation->push_back((*childrens)[0]);
-					newPopulation->push_back((*childrens)[1]);
+					//if((*childrens)[0]->getFitness() >= firstParent->getFitness())
+						newPopulation->push_back((*childrens)[0]);
+					//else
+					//	newPopulation->push_back(new CIndividual(*firstParent));
+					//if ((*childrens)[1]->getFitness() >= secondParent->getFitness())
+						newPopulation->push_back((*childrens)[1]);
+					//else
+					//	newPopulation->push_back(new CIndividual(*secondParent));
 					delete childrens;
 				}
 				else
@@ -138,11 +144,11 @@ CIndividual* CGeneticAlgorithm::run()
 
 		bestOne = findBestOne();
 
-		cout << "najlepszy wynik to" << endl;
+		cout << S_BEST_ONE_IS << endl;
 		cout << bestOne->toString() << endl;
 
 
-		cout << "wprowadz 0 dla zatrzymania dzialania inna liczbe dla ponownego przebiegu " << endl;
+		cout << S_GIVE_ZERO_TO_FINISH << endl;
 		cin >> shallIFinish;
 	} while (shallIFinish != 0);
 
@@ -166,7 +172,7 @@ double CGeneticAlgorithm::giveRandomProbability()
 	mt19937 generator(rd()); //Standard mersenne_twister_engine seeded with rd()
 	uniform_int_distribution<> generuj(0, 100000);
 	prob = generuj(generator);
-	return prob/100000;
+	return prob/ 100000;
 }
 
 void CGeneticAlgorithm::deletePopulation()
