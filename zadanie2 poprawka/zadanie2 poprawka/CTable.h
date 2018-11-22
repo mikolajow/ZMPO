@@ -21,7 +21,7 @@ public:
 
 	void vSetSize(int newSize);
 
-	CTable operator+(CTable &other);
+	CTable& operator+(CTable &other);
 
 	CTable& operator=(CTable &other);
 

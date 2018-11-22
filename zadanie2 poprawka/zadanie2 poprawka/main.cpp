@@ -24,8 +24,8 @@ int main()
 	sum = c_t0 + c_t1;
 
 
-	//for (int i = 0; i < sum.size; i++)
-	//	cout << sum.pi_tab[i] << ",";
+	for (int i = 0; i < sum.size; i++)
+	cout << sum.pi_tab[i] << ",";
 
 
 

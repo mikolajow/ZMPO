@@ -33,17 +33,17 @@ void CTable::vSetSize(int newSize)
 }
 
 
-CTable CTable::operator+(CTable &other)
+CTable& CTable::operator+(CTable &other)
 {
-	CTable sum;
+	CTable *sum = new CTable();
 	int sumSize = this->size + other.size;
-	sum.vSetSize(sumSize);
+	(*sum).vSetSize(sumSize);
 	for (int i = 0; i < this->size; i++)
-		sum.pi_tab[i] = pi_tab[i];
+		(*sum).pi_tab[i] = pi_tab[i];
 
 	for (int i = 0; i < other.size; i++)
-		sum.pi_tab[this->size + i] = other.pi_tab[i];
-	return sum;
+		(*sum).pi_tab[this->size + i] = other.pi_tab[i];
+	return (*sum);
 }// +
 
 CTable& CTable::operator=(CTable &wzor)
