@@ -13,13 +13,10 @@ CGeneticAlgorithm::CGeneticAlgorithm(double mutProb, double crossProb, int popSi
 	generateStartingPopulation();
 }
 
-
 CGeneticAlgorithm::~CGeneticAlgorithm()
 {
 	deletePopulation();
-	//cout << population.size() << endl;
 }
-
 
 void CGeneticAlgorithm::generateStartingPopulation()
 {
@@ -47,7 +44,6 @@ CIndividual* CGeneticAlgorithm::run()
 
 	int shallIFinish = 0;
 
-
 	do
 	{
 		cout << "wprowadz liczbe iteracji " << endl;
@@ -60,8 +56,6 @@ CIndividual* CGeneticAlgorithm::run()
 
 			while (newPopulation->size() != populationSize)
 			{
-
-
 
 				int indexOfFirstParent;
 				int indexOfFirstCandidate = giveRandomIndex();
