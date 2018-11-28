@@ -93,36 +93,41 @@ void CConfig::config() {
 	mainMenu->addNewItem(makeClearScreenCommand());
 
 
-	//modyfikacja 2:
+	//modyfikacja 2:    do zadania 2 
 
 	//vector<CMenu*> vec;
 	//vec.push_back(mainMenu);
 	//mainMenu->printMenu(&vec);
 
-	//koniec dodyfikacji 2
+	//koniec dodyfikacji 2		do zadania 2
 
 
 	string save;
 
 	cout << endl << endl;
 	//save = mainMenu->saveToString();
+	//cout << "To jest zais menu do stringa:" << endl;
 	//cout << save << endl << endl;;
 
 
-	save = S_MENU_TO_LOAD;
+	//save = S_MENU_TO_LOAD;
 
-	CMenu *loaded = new CMenu(save, save);
+	//CMenu *loaded = new CMenu(save, save);
 
-	loaded->run();
+	//loaded->changePlaces(changeMenu, deleteMenu);
+
+	//loaded->run();
 	
 
-	//mainMenu->run();
+	mainMenu->changePlaces(deleteMenu, changeMenu);
+
+	mainMenu->run();
 
 
 	// DELETE ELEMENTS
 
 	delete mainMenu;
-	delete loaded;
+	//delete loaded;
 
 }//koniec metody config
 

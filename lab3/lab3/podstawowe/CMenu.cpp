@@ -28,8 +28,9 @@ CMenu::~CMenu() {
 	//cout << "ununiento menu o nazwie: " << s_name << endl;
 	for (unsigned int i = 0; i < (*list).size(); i++) {
 		delete  (*list)[i];
-		delete list;
 	}
+
+	delete list;
 }
 
 
@@ -308,11 +309,6 @@ string CMenu::saveToString(string save)
 	return save + ")";
 }//koniec save to sttring
 
-
-
-
-
-
 int CMenu::loadFromString(string save, string saveCoppy)
 {
 	if (save[0] != '(')
@@ -346,10 +342,10 @@ int CMenu::loadFromString(string save, string saveCoppy)
 
 
 
-	////@@@@@@@@@@@@@ MODYFIKACJA
+	////@@@@@@@@@@@@@ MODYFIKACJA ile dzieci
 	//int noumberOfChilds = ((int)save[0]) - 48;
 	//save.erase(0, 1);
-	////@@@@@@@@@@@@@ MODYFIKACJA
+	////@@@@@@@@@@@@@ MODYFIKACJA ile dzieci
 
 
 
@@ -432,7 +428,7 @@ int CMenu::loadFromString(string save, string saveCoppy)
 
 
 
-	//	//@@@@@@@@@@@@@ MODYFIKACJA
+	//	//@@@@@@@@@@@@@ MODYFIKACJA ile dzieci
 	//int elemsInVec = vec->size();
 
 	//if (noumberOfChilds == elemsInVec)
@@ -443,7 +439,7 @@ int CMenu::loadFromString(string save, string saveCoppy)
 	//{
 	//	cout << "inna liczba dzieci " << name << endl;
 	//}
-	////@@@@@@@@@@@@@ MODYFIKACJA
+	////@@@@@@@@@@@@@ MODYFIKACJA ile dzieci
 
 
 
@@ -455,7 +451,6 @@ int CMenu::loadFromString(string save, string saveCoppy)
 
 	return 1;
 }//koniec load from string
-
 
 string CMenu::loadNameOrComm(string &save, string original)
 {
@@ -518,7 +513,55 @@ void CMenu::showError(char wrong, string expected, string save, string saveCoppy
 
 
 
+void CMenu::changePlaces(CMenu* first, CMenu* second)
+{
+	CMenu* firstParent = first->getParent();
+	cout << firstParent->getName() << endl;
+	CMenu* secondParent = second->getParent();
+	vector <CMenuItem*>* firstVector = first->getVector();
+	vector <CMenuItem*>* secondVector = second->getVector();
+	firstParent->addNewItem(second);
+	secondParent->getVector()->push_back(first);
+	firstParent->getVector()->erase(firstParent->getVector()->begin());
+	secondParent->getVector()->erase(secondParent->getVector()->begin());
+	CMenu *currentMenu;
+	vector<CMenuItem*> temp1;
+	vector<CMenuItem*> temp2;
 
+	// dodaje dzieci z first do temp1
+	for (int i = 0; i < firstVector->size(); i++)
+	{
+		CMenuItem *current = (*firstVector)[i];
+		currentMenu = dynamic_cast<CMenu*> (current);
+		if (currentMenu)
+		{
+			temp1.push_back(currentMenu);
+		}
+	}//koniec for
+
+	//dodaje dzieci z second do temp2
+	for (int i = 0; i < secondVector->size(); i++)
+	{
+		CMenuItem *current = (*secondVector)[i];
+		currentMenu = dynamic_cast<CMenu*> (current);
+		if (currentMenu)
+		{
+			temp2.push_back(currentMenu);
+		}
+	}//koniec for
+
+	for (int i = 0; i < temp2.size(); i++)
+	{
+		firstVector->push_back(temp2[i]);
+	}
+
+	for (int i = 0; i < temp1.size(); i++)
+	{
+		secondVector->push_back(temp1[i]);
+	}
+	firstVector->erase(firstVector->begin(), firstVector->begin() + temp1.size());
+	secondVector->erase(secondVector->begin(), secondVector->begin() + temp2.size());
+}//koniec change places
 
 
 

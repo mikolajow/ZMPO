@@ -45,6 +45,10 @@ public:
 
 	string saveToString(string save = "");
 
+
+	//modyfikacja do zadania 3 zamiana miejscami
+	void changePlaces(CMenu* first, CMenu* second);
+
 private:
 
 	CMenu *parent;
@@ -73,6 +77,10 @@ private:
 	string loadNameOrComm(string &save, string original);
 
 	void showError(char wrong, string expected, string save, string saveCoppy);
+
+
+
+
 
 };
 
