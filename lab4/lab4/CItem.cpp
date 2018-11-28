@@ -2,7 +2,7 @@
 
 
 
-CItem::CItem(string nam, double val, double weig)
+CItem::CItem(string nam, double weig, double val)
 {
 	name = nam;
 	value = val;

@@ -9,7 +9,7 @@ class CItem
 {
 public:
 
-	CItem(string nam, double val, double weig);
+	CItem(string nam, double weig, double val);
 
 	string getName();
 	double getValue();

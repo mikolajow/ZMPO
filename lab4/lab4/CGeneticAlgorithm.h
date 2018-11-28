@@ -1,5 +1,8 @@
 #include "CIndividual.h"
 
+#define S_GIVE_ITERATION_NUMBER "wprowadz liczbe iteracji "
+#define S_BEST_ONE_IS "najlepszy wynik to"
+#define S_GIVE_ZERO_TO_FINISH "wprowadz 0 dla zatrzymania dzialania inna liczbe dla ponownego przebiegu " 
 
 
 
@@ -33,6 +36,10 @@ private:
 	double giveRandomProbability();
 
 	void deletePopulation();
+
+	void mutatePopulation();
+
+	CIndividual* findBestOne();
 
 };
 
