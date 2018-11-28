@@ -55,7 +55,6 @@ CIndividual* CGeneticAlgorithm::run()
 
 			while (newPopulation->size() != populationSize)
 			{
-
 				int indexOfFirstParent;
 				int indexOfFirstCandidate = giveRandomIndex();
 				int indexOfSecondCandidate;
@@ -184,7 +183,7 @@ void CGeneticAlgorithm::deletePopulation()
 
 void CGeneticAlgorithm::mutatePopulation()
 {
-	int mutationProb;
+	double mutationProb;
 
 	for (unsigned int i = 0; i < population->size(); i++)
 	{
