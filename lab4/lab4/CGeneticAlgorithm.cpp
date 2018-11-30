@@ -109,15 +109,12 @@ CIndividual* CGeneticAlgorithm::run()
 				if (crossProb <= crossProbability)
 				{
 					vector<CIndividual*> *childrens = firstParent->crossWith(*secondParent);
-					//if((*childrens)[0]->getFitness() >= firstParent->getFitness())
-						newPopulation->push_back((*childrens)[0]);
-					//else
-					//	newPopulation->push_back(new CIndividual(*firstParent));
-					//if ((*childrens)[1]->getFitness() >= secondParent->getFitness())
-						newPopulation->push_back((*childrens)[1]);
-					//else
-					//	newPopulation->push_back(new CIndividual(*secondParent));
+
+					newPopulation->push_back((*childrens)[0]);
+					newPopulation->push_back((*childrens)[1]);
+
 					delete childrens;
+
 				}
 				else
 				{

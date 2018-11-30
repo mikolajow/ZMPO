@@ -33,8 +33,6 @@ int main()
 
 
 
-
-
 	CKnapsackProblem *problem = new CKnapsackProblem(&itemList, 20.);
 
 	CGeneticAlgorithm *alg = new CGeneticAlgorithm(0.2, 0.4, 40, problem);
@@ -42,15 +40,8 @@ int main()
 	alg->run();
 
 
-
-
-
-
-
-
-
-
-
+	delete problem;
+	delete alg;
 
 
 
@@ -74,26 +65,39 @@ int main()
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	//alg->run();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	//CIndividual *fstOsobnik = new CIndividual(problem);
 

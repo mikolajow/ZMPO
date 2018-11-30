@@ -11,15 +11,18 @@ CIndividual::CIndividual(CKnapsackProblem *knapsackP)
 	updateFitness();
 }
 
+//konstruktor prywatny
 CIndividual::CIndividual(CKnapsackProblem *knapsackP, int *gen)
 {
 	knapsackProblem = knapsackP;
 	numberOfGenes = knapsackP->getItemList()->size();
+	//tablica tworzona przez krzyzowanie
 	genotype = gen;
 	updateFitness();
 }
 
-CIndividual::CIndividual(CIndividual &orginal)
+
+CIndividual::CIndividual(const CIndividual &orginal)
 {
 	numberOfGenes = orginal.getNumberOfGenes();
 	knapsackProblem = orginal.getKnapsackProblem();
@@ -31,6 +34,7 @@ CIndividual::CIndividual(CIndividual &orginal)
 	}
 	updateFitness();
 }
+
 
 CIndividual::~CIndividual()
 {
@@ -88,10 +92,10 @@ int CIndividual::giveRandomNumber(int from, int to)
 	return generuj(generator);
 }
 
-int* CIndividual::getGenotype() { return genotype; }
-double CIndividual::getFitness() { return fitness; }
-int CIndividual::getNumberOfGenes() { return numberOfGenes; }
-CKnapsackProblem* CIndividual::getKnapsackProblem() { return knapsackProblem; }
+int* CIndividual::getGenotype() const { return genotype; }
+double CIndividual::getFitness() const { return fitness; }
+int CIndividual::getNumberOfGenes() const { return numberOfGenes; }
+CKnapsackProblem* CIndividual::getKnapsackProblem() const { return knapsackProblem; }
 
 vector<CIndividual*>* CIndividual::crossWith(CIndividual &secondParent)
 {

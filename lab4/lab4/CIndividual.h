@@ -7,15 +7,15 @@ class CIndividual
 {
 public:
 	CIndividual(CKnapsackProblem *knapsackP);
-	CIndividual(CKnapsackProblem *knapsackP, int *gen);
-	CIndividual(CIndividual &orginal);
+
+	CIndividual(const CIndividual &orginal);
 
 	~CIndividual();
 
-	int* getGenotype();
-	double getFitness();
-	int getNumberOfGenes();
-	CKnapsackProblem* getKnapsackProblem();
+	int* getGenotype() const;
+	double getFitness() const;
+	int getNumberOfGenes() const;
+	CKnapsackProblem* getKnapsackProblem() const;
 
 	void mutate(int index);//
 
@@ -29,6 +29,9 @@ private:
 	int *genotype;
 	double fitness;
 	CKnapsackProblem *knapsackProblem;
+
+	//konstruktor prywatny
+	CIndividual(CKnapsackProblem *knapsackP, int *gen);
 
 
 	//METODY
