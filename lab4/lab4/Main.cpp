@@ -20,7 +20,6 @@ int main()
 	CItem *f = new CItem("6", 9, 11);
 
 
-
 	vector<CItem*> itemList;
 	itemList.push_back(a);
 	itemList.push_back(b);
@@ -28,11 +27,6 @@ int main()
 	itemList.push_back(d);
 	itemList.push_back(e);
 	itemList.push_back(f);
-
-
-
-
-
 
 
 	CKnapsackProblem *problem = new CKnapsackProblem(&itemList, 20.);
