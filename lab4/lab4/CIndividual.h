@@ -1,6 +1,14 @@
 #include <vector>
 #include "CKnapsackProblem.h"
 
+#define S_CHOSEN_ITEM_IS "wybrano objekty o numerach: "
+#define S_NAME_IS_EQUAL_TO "name = "
+#define S_WEIGHT_IS_EQUAL_TO " weight = "
+#define S_VALUE_IS_EQUAL_TO " value = "
+#define S_TOTAL_VALUE_IS " o lacznej wartosci "
+#define S_COMA ", "
+
+
 using namespace std;
 
 class CIndividual
@@ -43,4 +51,22 @@ private:
 
 	int giveRandomNumber(int from, int to);//
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

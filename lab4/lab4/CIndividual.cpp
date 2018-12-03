@@ -135,9 +135,11 @@ vector<CIndividual*>* CIndividual::crossWith(CIndividual &secondParent)
 	return childrens;
 }
 
+
+
 string CIndividual::toString()
 {
-	string description = "wybrano objekty o numerach: ";
+	string description = S_CHOSEN_ITEM_IS;
 	CItem *currentItem;
 
 	for (int i = 0; i < numberOfGenes; i++)
@@ -145,11 +147,11 @@ string CIndividual::toString()
 		if (genotype[i] == 1)
 		{
 			currentItem = (*knapsackProblem->getItemList())[i];
-			cout <<"name = "<< currentItem->getName() << " weight = "<<currentItem->getWeight() <<" value = "<< currentItem->getValue() << endl;
-			description = description + currentItem->getName() + ", ";
+			cout << S_NAME_IS_EQUAL_TO << currentItem->getName() << S_WEIGHT_IS_EQUAL_TO  <<currentItem->getWeight() << S_VALUE_IS_EQUAL_TO << currentItem->getValue() << endl;
+			description = description + currentItem->getName() + S_COMA;
 		}
 	}
-	description = description + " o lacznej wartosci " + to_string(fitness);
+	description = description + S_TOTAL_VALUE_IS + to_string(fitness);
 	return description;
 }
 
