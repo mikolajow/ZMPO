@@ -2,8 +2,11 @@
 #include <random>
 
 
-CGeneticAlgorithm::CGeneticAlgorithm(double mutProb, double crossProb, int popSize, CKnapsackProblem *problem)
+CGeneticAlgorithm::CGeneticAlgorithm(double mutProb, double crossProb, int popSize, CKnapsackProblem *problem, double scal)
 {
+	//modyfikacja
+	scale = scal;
+
 	populationSize = (popSize % 2 == 0) ? popSize : popSize + 1;
 	mutationProbability = mutProb;
 	crossProbability = crossProb;
@@ -53,7 +56,23 @@ CIndividual* CGeneticAlgorithm::run()
 		{
 			newPopulation = new vector<CIndividual*>;
 
-			while (newPopulation->size() != populationSize)
+
+			//modyfykacja rozmiaru
+
+			int scaledSize = (int) (populationSize * scale);
+
+			if (scaledSize < 2)
+				scaledSize = 2;
+
+			scaledSize = (scaledSize % 2 == 0) ? scaledSize : scaledSize + 1;
+
+			
+
+
+			while (  newPopulation->size()  != scaledSize)
+
+
+
 			{
 				int indexOfFirstParent;
 				int indexOfFirstCandidate = giveRandomIndex();
@@ -131,6 +150,15 @@ CIndividual* CGeneticAlgorithm::run()
 
 			//MUTOWANIE NOWEJ POPULACJI
 			mutatePopulation();
+
+
+
+			//modyfikacja wynik
+
+			cout << population->size() << endl;
+
+
+			populationSize = scaledSize;
 
 		}//for (int i = 0; i < iterationNumber; i++)
 

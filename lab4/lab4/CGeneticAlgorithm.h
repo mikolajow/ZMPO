@@ -11,13 +11,17 @@ class CGeneticAlgorithm
 
 public:
 
-	CGeneticAlgorithm(double mutProb, double crossProb, int popSize, CKnapsackProblem *problem);
+	CGeneticAlgorithm(double mutProb, double crossProb, int popSize, CKnapsackProblem *problem, double scale);
 
 	~CGeneticAlgorithm();
 
 	CIndividual* run();
 
 private:
+
+	//modyfikacja
+	double scale;
+
 
 	double mutationProbability;
 	double crossProbability;

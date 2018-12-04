@@ -36,7 +36,7 @@ int main()
 
 	CKnapsackProblem *problem = new CKnapsackProblem(&itemList, 20.);
 
-	CGeneticAlgorithm *alg = new CGeneticAlgorithm(0.2, 0.4, 40, problem);
+	CGeneticAlgorithm *alg = new CGeneticAlgorithm(0.2, 0.4, 100, problem, 1.2);
 
 	alg->run();
 
