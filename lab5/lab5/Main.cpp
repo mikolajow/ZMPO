@@ -29,14 +29,18 @@ int main()
 	itemList.push_back(f);
 
 
-//<<<<<<< HEAD
-//=======
-//>>>>>>> 6de7c440bbf8e1730cd60926cd984eafb2fdc82e
+
+
+
 	
 
 	CKnapsackProblem *problem = new CKnapsackProblem(&itemList, 20.);
 
-	CGeneticAlgorithm *alg = new CGeneticAlgorithm(0.2, 0.4, 100, problem, 1.2);
+	CGeneticAlgorithm *alg = new CGeneticAlgorithm(0.2, 0.4, 100, problem);
+
+
+
+
 
 	alg->run();
 

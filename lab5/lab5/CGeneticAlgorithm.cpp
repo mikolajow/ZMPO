@@ -2,11 +2,8 @@
 #include <random>
 
 
-CGeneticAlgorithm::CGeneticAlgorithm(double mutProb, double crossProb, int popSize, CKnapsackProblem *problem, double scal)
+CGeneticAlgorithm::CGeneticAlgorithm(double mutProb, double crossProb, int popSize, CKnapsackProblem *problem)
 {
-	//modyfikacja
-	scale = scal;
-
 	populationSize = (popSize % 2 == 0) ? popSize : popSize + 1;
 	mutationProbability = mutProb;
 	crossProbability = crossProb;
@@ -27,7 +24,6 @@ void CGeneticAlgorithm::generateStartingPopulation()
 	{
 		population->push_back(new CIndividual(knapsackProblem));
 	}
-	//cout << "population size = " << population.size() << endl;
 }
 
 
@@ -57,22 +53,7 @@ CIndividual* CGeneticAlgorithm::run()
 			newPopulation = new vector<CIndividual*>;
 
 
-			//modyfykacja rozmiaru
-
-			int scaledSize = (int) (populationSize * scale);
-
-			if (scaledSize < 2)
-				scaledSize = 2;
-
-			scaledSize = (scaledSize % 2 == 0) ? scaledSize : scaledSize + 1;
-
-			
-
-
-			while (  newPopulation->size()  != scaledSize)
-
-
-
+			while (  newPopulation->size()  != populationSize)
 			{
 				int indexOfFirstParent;
 				int indexOfFirstCandidate = giveRandomIndex();
@@ -151,15 +132,6 @@ CIndividual* CGeneticAlgorithm::run()
 			//MUTOWANIE NOWEJ POPULACJI
 			mutatePopulation();
 
-
-
-			//modyfikacja wynik
-
-			cout << population->size() << endl;
-
-
-			populationSize = scaledSize;
-
 		}//for (int i = 0; i < iterationNumber; i++)
 
 		bestOne = findBestOne();
@@ -172,6 +144,7 @@ CIndividual* CGeneticAlgorithm::run()
 		cin >> shallIFinish;
 	} while (shallIFinish != 0);
 
+	currentBest = bestOne;
 	return bestOne;
 }
 
@@ -190,9 +163,9 @@ double CGeneticAlgorithm::giveRandomProbability()
 	double prob = 0;
 	random_device rd;  //Will be used to obtain a seed for the random number engine
 	mt19937 generator(rd()); //Standard mersenne_twister_engine seeded with rd()
-	uniform_int_distribution<> generuj(0, 100000);
+	uniform_int_distribution<> generuj(0, I_BIG_NUMBER_FOR_PROBABILITY);
 	prob = generuj(generator);
-	return prob/ 100000;
+	return prob/ I_BIG_NUMBER_FOR_PROBABILITY;
 }
 
 void CGeneticAlgorithm::deletePopulation()
