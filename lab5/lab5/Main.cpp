@@ -10,6 +10,8 @@ using namespace std;
 int main()
 {
 
+
+
 	// TEST 2
 
 	CItem *a = new CItem("1", 3, 5);
@@ -36,7 +38,7 @@ int main()
 
 	CKnapsackProblem *problem = new CKnapsackProblem(&itemList, 20.);
 
-	CGeneticAlgorithm *alg = new CGeneticAlgorithm(0.2, 0.4, 100, problem);
+	CGeneticAlgorithm<int> *alg = new CGeneticAlgorithm<int>(0.2, 0.4, 100, problem);
 
 
 

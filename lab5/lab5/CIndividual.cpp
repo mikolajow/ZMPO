@@ -2,17 +2,20 @@
 #include <random>
 
 
-CIndividual::CIndividual(CKnapsackProblem *knapsackP)
+
+template<class T>
+CIndividual<T>::CIndividual(CKnapsackProblem *knapsackP)
 {
 	knapsackProblem = knapsackP;
 	numberOfGenes = knapsackP->getItemList()->size();
-	genotype = new int[ numberOfGenes ];
+	genotype = new T[ numberOfGenes ];
 	generateRandomGenotype();
 	updateFitness();
 }
 
 //konstruktor prywatny
-CIndividual::CIndividual(CKnapsackProblem *knapsackP, int *gen)
+template<class T>
+CIndividual<T>::CIndividual(CKnapsackProblem *knapsackP, T *gen)
 {
 	knapsackProblem = knapsackP;
 	numberOfGenes = knapsackP->getItemList()->size();
@@ -22,12 +25,13 @@ CIndividual::CIndividual(CKnapsackProblem *knapsackP, int *gen)
 }
 
 
-CIndividual::CIndividual(const CIndividual &orginal)
+template <class T>
+CIndividual<T>::CIndividual(const CIndividual &orginal)
 {
 	numberOfGenes = orginal.getNumberOfGenes();
 	knapsackProblem = orginal.getKnapsackProblem();
-	genotype = new int[numberOfGenes];
-	int *orginalGenothype = orginal.getGenotype();
+	genotype = new T[numberOfGenes];
+	T *orginalGenothype = orginal.getGenotype();
 	for (int i = 0; i < numberOfGenes; i++)
 	{
 		genotype[i] = orginalGenothype[i];
@@ -35,14 +39,39 @@ CIndividual::CIndividual(const CIndividual &orginal)
 	updateFitness();
 }
 
-
-CIndividual::~CIndividual()
+template <class T>
+CIndividual<T>::~CIndividual()
 {
 	delete[] genotype;
 }
 
 
-void CIndividual::mutate(int index)
+
+
+
+//mutacja dla boola
+
+void CIndividual<bool>::mutate(int index)
+{
+	if (genotype[index] == false)
+	{
+		genotype[index] = true;
+	}
+	else
+	{
+		genotype[index] = false;
+	}
+	updateFitness();
+}//koniec mutacji
+
+
+
+
+
+
+//mutacja dla inta
+template <class T>
+void CIndividual<T>::mutate(int index)
 {
 	if (genotype[index] == 0)
 	{
@@ -55,36 +84,56 @@ void CIndividual::mutate(int index)
 	updateFitness();
 }//koniec mutacji
 
-void CIndividual::updateFitness()
+
+
+
+
+
+
+
+
+
+
+
+template<class T>
+void CIndividual<T>::updateFitness()
 {
 	double totalVal = 0;
 	double totalWeig = 0;
 	double 	bagCapacity = knapsackProblem->getBagCapacity();
 	vector<CItem*> *itemList = knapsackProblem->getItemList();
 
-
 	for (unsigned int i= 0; i < numberOfGenes; i++)
 	{
-		if (genotype[i] ==1)
-		{
-			CItem *currentItem = ((*itemList)[i]);
-			totalVal = totalVal + currentItem->getValue();
-			totalWeig = totalWeig + currentItem->getWeight();
-		}
+		CItem *currentItem = ((*itemList)[i]);
+		totalVal = totalVal + (currentItem->getValue())*genotype[i];
+		totalWeig = totalWeig + currentItem->getWeight()*genotype[i];	
 	}//	for (unsigned int = 0; i < numberOfGenes; i++)
 
 	fitness = (totalWeig > bagCapacity) ? 0 : totalVal;
 }
 
-void CIndividual::generateRandomGenotype()
+
+//	CZY TRZEBA COS ZMIENIAC? CZEMU POCZATKOWA POPULACJA NIE MIALABY WYGLADAC W TEN SPOSOB?
+
+template<class T>
+void CIndividual<T>::generateRandomGenotype()
 {
+
 	for (int i = 0; i < numberOfGenes; i++)
 	{
 		genotype[i] = giveRandomNumber(0, 1);
 	}//koniec for
 }//koniec generate random genotype
 
-int CIndividual::giveRandomNumber(int from, int to)
+
+
+
+
+
+
+template <class T>
+int CIndividual<T>::giveRandomNumber(int from, int to)
 {
 	random_device rd;  //Will be used to obtain a seed for the random number engine
 	mt19937 generator(rd()); //Standard mersenne_twister_engine seeded with rd()
@@ -92,23 +141,26 @@ int CIndividual::giveRandomNumber(int from, int to)
 	return generuj(generator);
 }
 
-int* CIndividual::getGenotype() const { return genotype; }
-double CIndividual::getFitness() const { return fitness; }
-int CIndividual::getNumberOfGenes() const { return numberOfGenes; }
-CKnapsackProblem* CIndividual::getKnapsackProblem() const { return knapsackProblem; }
+template <class T> T* CIndividual<T>::getGenotype() const { return genotype; }
+template <class T> double CIndividual<T>::getFitness() const { return fitness; }
+template <class T> int CIndividual<T>::getNumberOfGenes() const { return numberOfGenes; }
+template <class T> CKnapsackProblem* CIndividual<T>::getKnapsackProblem() const { return knapsackProblem; }
 
-vector<CIndividual*>* CIndividual::crossWith(CIndividual &secondParent)
+
+
+template <class T>
+vector<CIndividual<T>*>* CIndividual<T>::crossWith(CIndividual &secondParent)
 {
 
-	vector<CIndividual*> *childrens = new vector<CIndividual*>;
+	vector<CIndividual<T>*> *childrens = new vector<CIndividual<T>*>;
 
-	CIndividual *firstParent = this;
+	CIndividual<T> *firstParent = this;
 	CKnapsackProblem *currentKnProblem = this->knapsackProblem;
 
 	int cutPlace = giveRandomNumber(1, numberOfGenes -1);
 
-	int *firstChildGenothype = new int[numberOfGenes];
-	int *secondChildGenothype = new int[numberOfGenes];
+	T *firstChildGenothype = new T[numberOfGenes];
+	T *secondChildGenothype = new T[numberOfGenes];
 
 	//first genotype part
 	for (int i = 0; i < cutPlace; i++)
@@ -124,8 +176,8 @@ vector<CIndividual*>* CIndividual::crossWith(CIndividual &secondParent)
 		secondChildGenothype[i] = firstParent->getGenotype()[i];
 	}
 
-	CIndividual *fstChild = new CIndividual(this->knapsackProblem, firstChildGenothype);
-	CIndividual *sndChild = new CIndividual(this->knapsackProblem, secondChildGenothype);
+	CIndividual<T> *fstChild = new CIndividual<T>(this->knapsackProblem, firstChildGenothype);
+	CIndividual<T> *sndChild = new CIndividual<T>(this->knapsackProblem, secondChildGenothype);
 	
 	childrens->push_back(fstChild);
 	childrens->push_back(sndChild);
@@ -137,14 +189,19 @@ vector<CIndividual*>* CIndividual::crossWith(CIndividual &secondParent)
 
 
 
-string CIndividual::toString()
+
+
+
+
+template <class T>
+string CIndividual<T>::toString()
 {
 	string description = S_CHOSEN_ITEM_IS;
 	CItem *currentItem;
 
 	for (int i = 0; i < numberOfGenes; i++)
 	{
-		if (genotype[i] == 1)
+		if (genotype[i] != 0)
 		{
 			currentItem = (*knapsackProblem->getItemList())[i];
 			cout << S_NAME_IS_EQUAL_TO << currentItem->getName() << S_WEIGHT_IS_EQUAL_TO  <<currentItem->getWeight() << S_VALUE_IS_EQUAL_TO << currentItem->getValue() << endl;
@@ -154,6 +211,27 @@ string CIndividual::toString()
 	description = description + S_TOTAL_VALUE_IS + to_string(fitness);
 	return description;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

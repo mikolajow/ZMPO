@@ -6,6 +6,8 @@
 #define I_BIG_NUMBER_FOR_PROBABILITY 100000
 
 
+
+template <class T>
 class CGeneticAlgorithm
 {
 
@@ -15,18 +17,18 @@ public:
 
 	~CGeneticAlgorithm();
 
-	CIndividual* run();
+	CIndividual<T>* run();
 
 private:
 
-	CIndividual *currentBest;
+	CIndividual<T> *currentBest;
 
 	double mutationProbability;
 	double crossProbability;
 	int populationSize;
 
 	CKnapsackProblem *knapsackProblem;
-	vector<CIndividual*> *population;
+	vector<CIndividual<T>*> *population;
 
 
 	//METODY
@@ -41,7 +43,11 @@ private:
 
 	void mutatePopulation();
 
-	CIndividual* findBestOne();
+	CIndividual<T>* findBestOne();
 
 };
+
+
+
+
 

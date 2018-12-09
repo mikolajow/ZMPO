@@ -2,44 +2,57 @@
 #include <random>
 
 
-CGeneticAlgorithm::CGeneticAlgorithm(double mutProb, double crossProb, int popSize, CKnapsackProblem *problem)
+
+template <class T>
+CGeneticAlgorithm<T>::CGeneticAlgorithm(double mutProb, double crossProb, int popSize, CKnapsackProblem *problem)
 {
 	populationSize = (popSize % 2 == 0) ? popSize : popSize + 1;
 	mutationProbability = mutProb;
 	crossProbability = crossProb;
 	knapsackProblem = problem;
 
-	population = new vector<CIndividual*>;
+	population = new vector<CIndividual<T>*>;
 	generateStartingPopulation();
 }
 
-CGeneticAlgorithm::~CGeneticAlgorithm()
+
+template <class T>
+CGeneticAlgorithm<T>::~CGeneticAlgorithm()
 {
 	deletePopulation();
 }
 
-void CGeneticAlgorithm::generateStartingPopulation()
+template <class T>
+void CGeneticAlgorithm<T>::generateStartingPopulation()
 {
 	for (int i = 0; i < populationSize; i++)
 	{
-		population->push_back(new CIndividual(knapsackProblem));
+		population->push_back(new CIndividual<T>(knapsackProblem));
 	}
 }
 
 
 
-CIndividual* CGeneticAlgorithm::run()
+
+
+
+
+
+
+
+template <class T>
+CIndividual<T>* CGeneticAlgorithm<T>::run()
 {
 	int iterationNumber;
 
-	CIndividual *bestOne;
-	CIndividual *firstParent;
-	CIndividual *secondParent;
+	CIndividual<T> *bestOne;
+	CIndividual<T> *firstParent;
+	CIndividual<T> *secondParent;
 
-	CIndividual *firstCandidate;
-	CIndividual *secondCandidate;
+	CIndividual<T> *firstCandidate;
+	CIndividual<T> *secondCandidate;
 
-	vector<CIndividual*> *newPopulation;
+	vector<CIndividual<T>*> *newPopulation;
 
 	int shallIFinish = 0;
 
@@ -50,7 +63,7 @@ CIndividual* CGeneticAlgorithm::run()
 
 		for (int i = 0; i < iterationNumber; i++)
 		{
-			newPopulation = new vector<CIndividual*>;
+			newPopulation = new vector<CIndividual<T>*>;
 
 
 			while (  newPopulation->size()  != populationSize)
@@ -108,7 +121,7 @@ CIndividual* CGeneticAlgorithm::run()
 				double crossProb = giveRandomProbability();
 				if (crossProb <= crossProbability)
 				{
-					vector<CIndividual*> *childrens = firstParent->crossWith(*secondParent);
+					vector<CIndividual<T>*> *childrens = firstParent->crossWith(*secondParent);
 
 					newPopulation->push_back((*childrens)[0]);
 					newPopulation->push_back((*childrens)[1]);
@@ -119,8 +132,8 @@ CIndividual* CGeneticAlgorithm::run()
 				else
 				{
 					//TRZEBA ZROBIC KOPIE BO ORGINALY USUWANE PO STWORZENIU NOWEJ POPULACJI
-					newPopulation->push_back(new CIndividual(*firstParent));
-					newPopulation->push_back(new CIndividual(*secondParent));
+					newPopulation->push_back(new CIndividual<T>(*firstParent));
+					newPopulation->push_back(new CIndividual<T>(*secondParent));
 				}
 			}//koniec while - wypelnianie nowej populacji
 
@@ -150,7 +163,8 @@ CIndividual* CGeneticAlgorithm::run()
 
 
 
-int CGeneticAlgorithm::giveRandomIndex()
+template <class T>
+int CGeneticAlgorithm<T>::giveRandomIndex()
 {
 	random_device rd;  //Will be used to obtain a seed for the random number engine
 	mt19937 generator(rd()); //Standard mersenne_twister_engine seeded with rd()
@@ -158,7 +172,8 @@ int CGeneticAlgorithm::giveRandomIndex()
 	return generuj(generator);
 }
 
-double CGeneticAlgorithm::giveRandomProbability()
+template <class T>
+double CGeneticAlgorithm<T>::giveRandomProbability()
 {
 	double prob = 0;
 	random_device rd;  //Will be used to obtain a seed for the random number engine
@@ -168,7 +183,8 @@ double CGeneticAlgorithm::giveRandomProbability()
 	return prob/ I_BIG_NUMBER_FOR_PROBABILITY;
 }
 
-void CGeneticAlgorithm::deletePopulation()
+template<class T>
+void CGeneticAlgorithm<T>::deletePopulation()
 {
 	for (unsigned int i = 0; i < population->size(); i++)
 	{
@@ -179,13 +195,15 @@ void CGeneticAlgorithm::deletePopulation()
 }
 
 
-void CGeneticAlgorithm::mutatePopulation()
+
+template <class T>
+void CGeneticAlgorithm<T>::mutatePopulation()
 {
 	double mutationProb;
 
 	for (unsigned int i = 0; i < population->size(); i++)
 	{
-		CIndividual *currentIndividual = (*population)[i];
+		CIndividual<T> *currentIndividual = (*population)[i];
 		for (int j = 0; j < currentIndividual->getNumberOfGenes(); j++)
 		{
 			mutationProb = giveRandomProbability();
@@ -197,12 +215,14 @@ void CGeneticAlgorithm::mutatePopulation()
 	}//koniec mutowania osobnikow
 }
 
-CIndividual* CGeneticAlgorithm::findBestOne()
+
+template <class T>
+CIndividual<T>* CGeneticAlgorithm<T>::findBestOne()
 {
-	CIndividual *bestOne = (*population)[0];
+	CIndividual<T> *bestOne = (*population)[0];
 	for (int i = 0; i < population->size(); i++)
 	{
-		CIndividual *current = (*population)[i];
+		CIndividual<T> *current = (*population)[i];
 		if (current->getFitness() > bestOne->getFitness())
 		{
 			bestOne = current;
@@ -210,6 +230,34 @@ CIndividual* CGeneticAlgorithm::findBestOne()
 	}
 	return bestOne;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

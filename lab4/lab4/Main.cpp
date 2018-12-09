@@ -3,12 +3,28 @@
 #include <random>
 #include "CGeneticAlgorithm.h"
 
+
 using namespace std;
 
 
 
 int main()
 {
+
+
+
+
+	bool abc = false;
+	cout << 22*abc << endl;
+
+
+
+
+
+
+
+
+
 
 	// TEST 2
 

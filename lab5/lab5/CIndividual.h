@@ -1,4 +1,5 @@
 #include <vector>
+#include "typeinfo.h"
 #include "CKnapsackProblem.h"
 
 #define S_CHOSEN_ITEM_IS "wybrano objekty o numerach: "
@@ -11,6 +12,7 @@
 
 using namespace std;
 
+template <class T>
 class CIndividual
 {
 public:
@@ -20,36 +22,40 @@ public:
 
 	~CIndividual();
 
-	int* getGenotype() const;
+	T* getGenotype() const;	
+
 	double getFitness() const;
 	int getNumberOfGenes() const;
 	CKnapsackProblem* getKnapsackProblem() const;
 
-	void mutate(int index);//
+
+
+	void mutate(int index);													//opretator++ postfixowy
+	vector<CIndividual<T>*>* crossWith(CIndividual<T> &secondParent);		//przerobic na operator+ dodatkowo z template
 
 	string toString();
-
-	vector<CIndividual*>* crossWith(CIndividual &secondParent);//
 
 private:
 	//SKLADOWE
 	int numberOfGenes;
-	int *genotype;
+
+
+
+	T *genotype;												
+
+
 	double fitness;
 	CKnapsackProblem *knapsackProblem;
 
 	//konstruktor prywatny
-	CIndividual(CKnapsackProblem *knapsackP, int *gen);
-
+	CIndividual(CKnapsackProblem *knapsackP, T *gen);
 
 	//METODY
+	void updateFitness();
 
+	void generateRandomGenotype();
 
-	void updateFitness();//
-
-	void generateRandomGenotype();//
-
-	int giveRandomNumber(int from, int to);//
+	int giveRandomNumber(int from, int to);
 };
 
 
