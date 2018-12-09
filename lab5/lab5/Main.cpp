@@ -38,9 +38,7 @@ int main()
 
 	CKnapsackProblem *problem = new CKnapsackProblem(&itemList, 20.);
 
-	CGeneticAlgorithm<bool> *alg = new CGeneticAlgorithm<bool>(0.2, 0.4, 40, problem);
-
-
+	CGeneticAlgorithm<int> *alg = new CGeneticAlgorithm<int>(0.3, 0.7, 60, problem);
 
 
 

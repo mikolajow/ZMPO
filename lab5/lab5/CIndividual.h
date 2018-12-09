@@ -8,6 +8,7 @@
 #define S_VALUE_IS_EQUAL_TO " value = "
 #define S_TOTAL_VALUE_IS " o lacznej wartosci "
 #define S_COMA ", "
+#define I_BIG_NUMBER_FOR_PROBABILITY 100000
 
 
 using namespace std;
@@ -16,7 +17,7 @@ template <class T>
 class CIndividual
 {
 public:
-	CIndividual(CKnapsackProblem *knapsackP);
+	CIndividual(CKnapsackProblem *knapsackP, double mutProb);
 
 	CIndividual(const CIndividual &orginal);
 
@@ -29,47 +30,38 @@ public:
 	CKnapsackProblem* getKnapsackProblem() const;
 
 
-
-	void mutate(int index);													//opretator++ postfixowy
-	vector<CIndividual<T>*>* crossWith(CIndividual<T> &secondParent);		//przerobic na operator+ dodatkowo z template
+	CIndividual<T>& operator+(CIndividual<T> &secondParent);
+	void operator++(int);
 
 	string toString();
 
 private:
 	//SKLADOWE
 	int numberOfGenes;
-
-
-
 	T *genotype;												
-
-
 	double fitness;
+	double mutationProbability;
 	CKnapsackProblem *knapsackProblem;
 
 	//konstruktor prywatny
-	CIndividual(CKnapsackProblem *knapsackP, T *gen);
+	CIndividual(CKnapsackProblem *knapsackP, T *gen, double mutProb);
 
 	//METODY
 	void updateFitness();
-
 	void generateRandomGenotype();
-
 	int giveRandomNumber(int from, int to);
+	double giveRandomProbability();
 };
 
 
 
-
-
-
-
-
+//definicje -----------------------------------------------------------------------------------------------------
 
 
 template<class T>
-CIndividual<T>::CIndividual(CKnapsackProblem *knapsackP)
+CIndividual<T>::CIndividual(CKnapsackProblem *knapsackP, double mutProb)
 {
+	mutationProbability = mutProb;
 	knapsackProblem = knapsackP;
 	numberOfGenes = knapsackP->getItemList()->size();
 	genotype = new T[numberOfGenes];
@@ -79,8 +71,9 @@ CIndividual<T>::CIndividual(CKnapsackProblem *knapsackP)
 
 //konstruktor prywatny
 template<class T>
-CIndividual<T>::CIndividual(CKnapsackProblem *knapsackP, T *gen)
+CIndividual<T>::CIndividual(CKnapsackProblem *knapsackP, T *gen, double mutProb)
 {
+	mutationProbability = mutProb;
 	knapsackProblem = knapsackP;
 	numberOfGenes = knapsackP->getItemList()->size();
 	//tablica tworzona przez krzyzowanie
@@ -92,6 +85,7 @@ CIndividual<T>::CIndividual(CKnapsackProblem *knapsackP, T *gen)
 template <class T>
 CIndividual<T>::CIndividual(const CIndividual &orginal)
 {
+	mutationProbability = orginal.mutationProbability;
 	numberOfGenes = orginal.getNumberOfGenes();
 	knapsackProblem = orginal.getKnapsackProblem();
 	genotype = new T[numberOfGenes];
@@ -109,93 +103,6 @@ CIndividual<T>::~CIndividual()
 	delete[] genotype;
 }
 
-
-
-
-
-//mutacja dla boola
-
-void CIndividual<bool>::mutate(int index)
-{
-	if (genotype[index] == false)
-	{
-		genotype[index] = true;
-	}
-	else
-	{
-		genotype[index] = false;
-	}
-	updateFitness();
-}//koniec mutacji
-
-
-
-
-
-
-//mutacja dla inta
-template <class T>
-void CIndividual<T>::mutate(int index)
-{
-	if (genotype[index] == 0)
-	{
-		genotype[index] = 1;
-	}
-	else
-	{
-		genotype[index] = 0;
-	}
-	updateFitness();
-}//koniec mutacji
-
-
-
-
-
-
-
-
-
-
-
-
-template<class T>
-void CIndividual<T>::updateFitness()
-{
-	double totalVal = 0;
-	double totalWeig = 0;
-	double 	bagCapacity = knapsackProblem->getBagCapacity();
-	vector<CItem*> *itemList = knapsackProblem->getItemList();
-
-	for (unsigned int i = 0; i < numberOfGenes; i++)
-	{
-		CItem *currentItem = ((*itemList)[i]);
-		totalVal = totalVal + (currentItem->getValue())*genotype[i];
-		totalWeig = totalWeig + currentItem->getWeight()*genotype[i];
-	}//	for (unsigned int = 0; i < numberOfGenes; i++)
-
-	fitness = (totalWeig > bagCapacity) ? 0 : totalVal;
-}
-
-
-//	CZY TRZEBA COS ZMIENIAC? CZEMU POCZATKOWA POPULACJA NIE MIALABY WYGLADAC W TEN SPOSOB?
-
-template<class T>
-void CIndividual<T>::generateRandomGenotype()
-{
-
-	for (int i = 0; i < numberOfGenes; i++)
-	{
-		genotype[i] = giveRandomNumber(0, 1);
-	}//koniec for
-}//koniec generate random genotype
-
-
-
-
-
-
-
 template <class T>
 int CIndividual<T>::giveRandomNumber(int from, int to)
 {
@@ -210,52 +117,23 @@ template <class T> double CIndividual<T>::getFitness() const { return fitness; }
 template <class T> int CIndividual<T>::getNumberOfGenes() const { return numberOfGenes; }
 template <class T> CKnapsackProblem* CIndividual<T>::getKnapsackProblem() const { return knapsackProblem; }
 
-
-
-template <class T>
-vector<CIndividual<T>*>* CIndividual<T>::crossWith(CIndividual &secondParent)
+template<class T>
+void CIndividual<T>::updateFitness()
 {
+	double totalVal = 0;
+	double totalWeig = 0;
+	double 	bagCapacity = knapsackProblem->getBagCapacity();
+	vector<CItem*> *itemList = knapsackProblem->getItemList();
 
-	vector<CIndividual<T>*> *childrens = new vector<CIndividual<T>*>;
-
-	CIndividual<T> *firstParent = this;
-	CKnapsackProblem *currentKnProblem = this->knapsackProblem;
-
-	int cutPlace = giveRandomNumber(1, numberOfGenes - 1);
-
-	T *firstChildGenothype = new T[numberOfGenes];
-	T *secondChildGenothype = new T[numberOfGenes];
-
-	//first genotype part
-	for (int i = 0; i < cutPlace; i++)
+	for (unsigned int i = 0; i < numberOfGenes; i++)
 	{
-		firstChildGenothype[i] = firstParent->getGenotype()[i];
-		secondChildGenothype[i] = secondParent.getGenotype()[i];
-	}
+		CItem *currentItem = ((*itemList)[i]);
+		totalVal = totalVal + (currentItem->getValue())*genotype[i];
+		totalWeig = totalWeig + (currentItem->getWeight())*genotype[i];
+	}//	for (unsigned int = 0; i < numberOfGenes; i++)
 
-	//second genotype part
-	for (int i = cutPlace; i < numberOfGenes; i++)
-	{
-		firstChildGenothype[i] = secondParent.getGenotype()[i];
-		secondChildGenothype[i] = firstParent->getGenotype()[i];
-	}
-
-	CIndividual<T> *fstChild = new CIndividual<T>(this->knapsackProblem, firstChildGenothype);
-	CIndividual<T> *sndChild = new CIndividual<T>(this->knapsackProblem, secondChildGenothype);
-
-	childrens->push_back(fstChild);
-	childrens->push_back(sndChild);
-
-	//cout << "cut place = " << cutPlace << endl;
-
-	return childrens;
+	fitness = (totalWeig > bagCapacity) ? 0 : totalVal;
 }
-
-
-
-
-
-
 
 template <class T>
 string CIndividual<T>::toString()
@@ -268,13 +146,200 @@ string CIndividual<T>::toString()
 		if (genotype[i] != 0)
 		{
 			currentItem = (*knapsackProblem->getItemList())[i];
-			cout << S_NAME_IS_EQUAL_TO << currentItem->getName() << S_WEIGHT_IS_EQUAL_TO << currentItem->getWeight() << S_VALUE_IS_EQUAL_TO << currentItem->getValue() << endl;
+			cout << S_NAME_IS_EQUAL_TO << currentItem->getName() << S_WEIGHT_IS_EQUAL_TO << currentItem->getWeight() << S_VALUE_IS_EQUAL_TO << currentItem->getValue() << " ilosc = " << genotype[i] << endl;
 			description = description + currentItem->getName() + S_COMA;
 		}
 	}
 	description = description + S_TOTAL_VALUE_IS + to_string(fitness);
 	return description;
 }
+
+template <class T>
+double CIndividual<T>::giveRandomProbability()
+{
+	double prob = 0;
+	random_device rd;  //Will be used to obtain a seed for the random number engine
+	mt19937 generator(rd()); //Standard mersenne_twister_engine seeded with rd()
+	uniform_int_distribution<> generuj(0, I_BIG_NUMBER_FOR_PROBABILITY);
+	prob = generuj(generator);
+	return prob / I_BIG_NUMBER_FOR_PROBABILITY;
+}
+
+
+//krzyzowanie operatorem
+template <class T>
+CIndividual<T>& CIndividual<T>::operator+(CIndividual<T> &secondParent)
+{
+
+	CIndividual<T> *firstParent = this;
+	CKnapsackProblem *currentKnProblem = this->knapsackProblem;
+
+	int cutPlace = giveRandomNumber(1, numberOfGenes - 1);
+
+	T *firstChildGenothype = new T[numberOfGenes];
+
+	//first genotype part
+	for (int i = 0; i < cutPlace; i++)
+		firstChildGenothype[i] = firstParent->getGenotype()[i];
+
+	//second genotype part
+	for (int i = cutPlace; i < numberOfGenes; i++)
+		firstChildGenothype[i] = secondParent.getGenotype()[i];
+
+	CIndividual<T> *child = new CIndividual<T>(this->knapsackProblem, firstChildGenothype, this->mutationProbability);
+
+	return (*child);
+}
+
+
+//mutacja dla boola
+template <class T>
+void CIndividual<T>::operator++(int)
+{
+	for (int i = 0; i < numberOfGenes; i++)
+	{
+		double probability = giveRandomProbability();
+		if (probability <= mutationProbability)
+		{
+			if (genotype[i] == 0)
+				genotype[i] = 1;
+
+			else
+				genotype[i] = 0;
+		}//koniec if - czy mutowac
+	}//koniec for
+	updateFitness();
+}
+
+//mutacja dla inta
+void CIndividual<int>::operator++(int)
+{
+	for (int i = 0; i < numberOfGenes; i++)
+	{
+		double probability = giveRandomProbability();
+		if (probability <= mutationProbability)
+		{
+			if (genotype[i] == 0)
+				genotype[i] = 1;
+			else
+			{
+				//cout << "genotyp przed mutacja = " << genotype[index] << endl;
+
+				//jak nie jest zerem to 50% szans na wziecie dodatkowej sztuki danego przedmiotu
+				//i  50% na od這瞠nie jednej sztuki danego przedmiotu
+				int prob = giveRandomNumber(0, 1);
+				if (prob == 0)
+					genotype[i]++;
+				else
+					genotype[i]--;
+				//cout << "genotyp po mutacji = " << genotype[index] << endl;
+			}
+		}//koniec if - czy mutowac
+	}//koniec for
+	updateFitness();
+}
+
+//mutacja dla doublea
+void CIndividual<double>::operator++(int)
+{
+	for (int i = 0; i < numberOfGenes; i++)
+	{
+		double probability = giveRandomProbability();
+		if (probability <= mutationProbability)
+		{
+			if (genotype[i] <= 0.51)
+				genotype[i] = 1;
+			else
+			{
+				//jak nie jest zerem to 50% szans na wziecie dodatkowej po這wy sztuki danego przedmiotu
+				//i  50% na od這瞠nie po這wy jednej sztuki danego przedmiotu
+				int prob = giveRandomNumber(0, 1);
+				if (prob == 0)
+					genotype[i] = genotype[i] - 0.5;
+				else
+					genotype[i] = genotype[i] + 0.5;
+			}
+		}//koniec if - czy mutowac
+	}//koniec for
+	updateFitness();
+}
+
+
+
+
+
+
+
+
+
+//	CZY TRZEBA COS ZMIENIAC? CZEMU POCZATKOWA POPULACJA NIE MIALABY WYGLADAC W TEN SPOSOB?
+
+// dla boola
+template<class T>
+void CIndividual<T>::generateRandomGenotype()
+{
+
+	for (int i = 0; i < numberOfGenes; i++)
+	{
+		genotype[i] = giveRandomNumber(0, 1);
+	}//koniec for
+}//koniec generate random genotype
+
+
+// dla inta
+void CIndividual<int>::generateRandomGenotype()
+{
+	for (int i = 0; i < numberOfGenes; i++)
+	{
+		int number = giveRandomNumber(0, 3);
+		genotype[i] = number;
+	}//koniec for
+}//koniec generate random genotype
+
+
+
+
+// dla doubla
+void CIndividual<double>::generateRandomGenotype()
+{
+	for (int i = 0; i < numberOfGenes; i++)
+	{
+		int number = giveRandomNumber(0, 30);
+		double howMuch = ((double)number) / 10;
+		genotype[i] = howMuch;
+	}//koniec for
+}//koniec generate random genotype
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
