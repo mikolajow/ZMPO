@@ -1,6 +1,7 @@
 #include <vector>
 #include "typeinfo.h"
 #include "CKnapsackProblem.h"
+#include <random>
 
 #define S_CHOSEN_ITEM_IS "wybrano objekty o numerach: "
 #define S_NAME_IS_EQUAL_TO "name = "
@@ -273,6 +274,7 @@ void CIndividual<double>::operator++(int)
 
 
 //	CZY TRZEBA COS ZMIENIAC? CZEMU POCZATKOWA POPULACJA NIE MIALABY WYGLADAC W TEN SPOSOB?
+// ALBO ZMIENIC METODY ALBO ZDEFINIOWAC MAGICZNE NUMERKI
 
 // dla boola
 template<class T>
@@ -295,8 +297,6 @@ void CIndividual<int>::generateRandomGenotype()
 		genotype[i] = number;
 	}//koniec for
 }//koniec generate random genotype
-
-
 
 
 // dla doubla

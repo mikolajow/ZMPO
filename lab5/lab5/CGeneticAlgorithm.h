@@ -1,4 +1,5 @@
 #include "CIndividual.h"
+#include <ctime>
 
 #define S_GIVE_ITERATION_NUMBER "wprowadz liczbe iteracji "
 #define S_BEST_ONE_IS "najlepszy wynik to"
@@ -17,7 +18,7 @@ public:
 
 	~CGeneticAlgorithm();
 
-	CIndividual<T>* run();
+	CIndividual<T>* run(int time);
 
 private:
 
@@ -83,15 +84,9 @@ void CGeneticAlgorithm<T>::generateStartingPopulation()
 
 
 
-
-
-
-
-
 template <class T>
-CIndividual<T>* CGeneticAlgorithm<T>::run()
+CIndividual<T>* CGeneticAlgorithm<T>::run(int iterationTime)
 {
-	int iterationNumber;
 
 	CIndividual<T> *bestOne;
 	CIndividual<T> *firstParent;
@@ -102,21 +97,13 @@ CIndividual<T>* CGeneticAlgorithm<T>::run()
 
 	vector<CIndividual<T>*> *newPopulation;
 
+	double startTime = time(nullptr);
+	double currentTime = 0;
 
-	//METODA MA KUKAC NA CZAS A NIE LICZBE ITERACJI
 
-
-	int shallIFinish = 1;
-
-	do
-	{
-		cout << S_GIVE_ITERATION_NUMBER << endl;
-		cin >> iterationNumber;
-
-		for (int i = 0; i < iterationNumber; i++)
+		while(currentTime < iterationTime)
 		{
 			newPopulation = new vector<CIndividual<T>*>;
-
 
 			while (newPopulation->size() != populationSize)
 			{
@@ -187,7 +174,6 @@ CIndividual<T>* CGeneticAlgorithm<T>::run()
 
 			}//koniec while - wypelnianie nowej populacji
 
-
 			deletePopulation();
 
 			population = newPopulation;
@@ -195,21 +181,18 @@ CIndividual<T>* CGeneticAlgorithm<T>::run()
 			//MUTOWANIE NOWEJ POPULACJI
 			mutatePopulation();
 
-		}//for (int i = 0; i < iterationNumber; i++)
+			currentTime = time(nullptr) - startTime;
+		}//while(finish < iterationTime)
 
 		bestOne = findBestOne();
 
 		cout << S_BEST_ONE_IS << endl;
 		cout << bestOne->toString() << endl;
 
-
-		cout << S_GIVE_ZERO_TO_FINISH << endl;
-		cin >> shallIFinish;
-	} while (shallIFinish != 1);
-
 	currentBest = bestOne;
 	return bestOne;
 }
+
 
 
 

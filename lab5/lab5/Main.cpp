@@ -1,7 +1,18 @@
 #include <string>
+#include <vector>
 #include <iostream>
-#include <random>
-#include "CGeneticAlgorithm.h"
+//jedno juz jest included w pliku CRunAlgorithm.h
+//#include "CGeneticAlgorithm.h"
+
+
+#include "CMenu.h"
+#include "CMenuCommand.h"
+
+#include "CClearScreenCommand.h"
+
+#include "CRunAlgorithm.h"
+
+
 
 using namespace std;
 
@@ -9,9 +20,6 @@ using namespace std;
 
 int main()
 {
-
-
-
 	// TEST 2
 
 	CItem *a = new CItem("1", 3, 5);
@@ -30,23 +38,54 @@ int main()
 	itemList.push_back(e);
 	itemList.push_back(f);
 
-
-
-
-
-	
-
 	CKnapsackProblem *problem = new CKnapsackProblem(&itemList, 20.);
 
-	CGeneticAlgorithm<int> *alg = new CGeneticAlgorithm<int>(0.3, 0.7, 60, problem);
+	CGeneticAlgorithm<int> *algInt = new CGeneticAlgorithm<int>(0.3, 0.7, 60, problem);
+	CGeneticAlgorithm<bool> *algBool = new CGeneticAlgorithm<bool>(0.3, 0.7, 60, problem);
+	CGeneticAlgorithm<double> *algDouble = new CGeneticAlgorithm<double>(0.3, 0.7, 60, problem);
 
 
 
-	alg->run();
+	// TWORZENIE MENU
 
+	vector<CMenuItem*> vectorMainMenu;
+
+	CMenu *mainMenu = new CMenu("Main Menu", "main", &vectorMainMenu);
+
+
+	CClearScreenCommand *cls = new CClearScreenCommand();
+
+	CRunAlgorithm<int> *runAlgInt = new CRunAlgorithm<int>(algInt);
+	CRunAlgorithm<bool> *runAlgBool = new CRunAlgorithm<bool>(algBool);
+	CRunAlgorithm<double> *runAlgDouble = new CRunAlgorithm<double>(algDouble);
+
+
+	CMenuCommand *clsMenuCommand = new CMenuCommand("wyczysc ekran", "cls", cls);
+
+	CMenuCommand *runAlgIntMenuCommand = new CMenuCommand("wystartuj algorytm genetyczny dla int", "i", runAlgInt);
+	CMenuCommand *runAlgBoolMenuCommand = new CMenuCommand("wystartuj algorytm genetyczny dla bool", "b", runAlgBool);
+	CMenuCommand *runAlgDoubleMenuCommand = new CMenuCommand("wystartuj algorytm genetyczny dla double", "d", runAlgDouble);
+
+	mainMenu->addNewItem(runAlgBoolMenuCommand);
+	mainMenu->addNewItem(runAlgIntMenuCommand);
+	mainMenu->addNewItem(runAlgDoubleMenuCommand);
+
+	mainMenu->addNewItem(clsMenuCommand);
+
+
+	mainMenu->run();
+
+
+	delete mainMenu;
 
 	delete problem;
-	delete alg;
+
+	delete algInt;
+	delete algDouble;
+	delete algBool;
+
+
+
 
 
 
@@ -67,31 +106,6 @@ int main()
 
 
 	//CGeneticAlgorithm *alg = new CGeneticAlgorithm(0.3, 0.3, 24, problem);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
