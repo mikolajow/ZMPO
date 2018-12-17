@@ -136,6 +136,12 @@ void CIndividual<T>::updateFitness()
 	fitness = (totalWeig > bagCapacity) ? 0 : totalVal;
 }
 
+
+
+
+
+
+
 template <class T>
 string CIndividual<T>::toString()
 {
@@ -154,6 +160,13 @@ string CIndividual<T>::toString()
 	description = description + S_TOTAL_VALUE_IS + to_string(fitness);
 	return description;
 }
+
+
+
+
+
+
+
 
 template <class T>
 double CIndividual<T>::giveRandomProbability()
@@ -212,6 +225,13 @@ void CIndividual<T>::operator++(int)
 	updateFitness();
 }
 
+
+
+
+
+
+
+
 //mutacja dla inta
 void CIndividual<int>::operator++(int)
 {
@@ -240,7 +260,12 @@ void CIndividual<int>::operator++(int)
 	updateFitness();
 }
 
-//mutacja dla doublea
+
+
+
+
+
+//mutacja dla doublea - tak jak dla inta tylko zwieksz/zmniejsz o 0.5
 void CIndividual<double>::operator++(int)
 {
 	for (int i = 0; i < numberOfGenes; i++)
@@ -273,8 +298,8 @@ void CIndividual<double>::operator++(int)
 
 
 
-//	CZY TRZEBA COS ZMIENIAC? CZEMU POCZATKOWA POPULACJA NIE MIALABY WYGLADAC W TEN SPOSOB?
-// ALBO ZMIENIC METODY ALBO ZDEFINIOWAC MAGICZNE NUMERKI
+
+// ZMIENIC METODY ALBO ZDEFINIOWAC MAGICZNE NUMERKI
 
 // dla boola
 template<class T>
