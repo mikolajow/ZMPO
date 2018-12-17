@@ -1,5 +1,4 @@
 #include <vector>
-#include "typeinfo.h"
 #include "CKnapsackProblem.h"
 #include <random>
 
@@ -10,6 +9,12 @@
 #define S_TOTAL_VALUE_IS " o lacznej wartosci "
 #define S_COMA ", "
 #define I_BIG_NUMBER_FOR_PROBABILITY 100000
+
+#define I_MAX_NUMBER_OF_SAME_ITEMS 3
+#define I_MULTIPLIER 100
+
+#define I_DOUBLE_MUTATION_PARAM 200
+#define I_DOUBLE_MUTATION_DIVIDER 100
 
 
 using namespace std;
@@ -184,7 +189,6 @@ double CIndividual<T>::giveRandomProbability()
 template <class T>
 CIndividual<T>& CIndividual<T>::operator+(CIndividual<T> &secondParent)
 {
-
 	CIndividual<T> *firstParent = this;
 	CKnapsackProblem *currentKnProblem = this->knapsackProblem;
 
@@ -232,6 +236,7 @@ void CIndividual<T>::operator++(int)
 
 
 
+
 //mutacja dla inta
 void CIndividual<int>::operator++(int)
 {
@@ -244,8 +249,6 @@ void CIndividual<int>::operator++(int)
 				genotype[i] = 1;
 			else
 			{
-				//cout << "genotyp przed mutacja = " << genotype[index] << endl;
-
 				//jak nie jest zerem to 50% szans na wziecie dodatkowej sztuki danego przedmiotu
 				//i  50% na od³o¿enie jednej sztuki danego przedmiotu
 				int prob = giveRandomNumber(0, 1);
@@ -253,12 +256,12 @@ void CIndividual<int>::operator++(int)
 					genotype[i]++;
 				else
 					genotype[i]--;
-				//cout << "genotyp po mutacji = " << genotype[index] << endl;
 			}
 		}//koniec if - czy mutowac
 	}//koniec for
 	updateFitness();
 }
+
 
 
 
@@ -266,6 +269,8 @@ void CIndividual<int>::operator++(int)
 
 
 //mutacja dla doublea - tak jak dla inta tylko zwieksz/zmniejsz o 0.5
+
+//mutacja dla doublea
 void CIndividual<double>::operator++(int)
 {
 	for (int i = 0; i < numberOfGenes; i++)
@@ -273,22 +278,29 @@ void CIndividual<double>::operator++(int)
 		double probability = giveRandomProbability();
 		if (probability <= mutationProbability)
 		{
-			if (genotype[i] <= 0.51)
-				genotype[i] = 1;
-			else
-			{
-				//jak nie jest zerem to 50% szans na wziecie dodatkowej po³owy sztuki danego przedmiotu
-				//i  50% na od³o¿enie po³owy jednej sztuki danego przedmiotu
+				//jak nie jest zerem to 50% szans na wziecie zwiêkszenie iloœci danego przedmiotu
+				//i  50% na zmniejszenie ilosci danego przedmiotu
 				int prob = giveRandomNumber(0, 1);
+
+				double itemQuantity = giveRandomNumber(0, I_DOUBLE_MUTATION_PARAM);
+				itemQuantity = itemQuantity / I_DOUBLE_MUTATION_DIVIDER;
+
+
 				if (prob == 0)
-					genotype[i] = genotype[i] - 0.5;
+				{
+					//nie moze byc ujemne
+					if (genotype[i] <= itemQuantity)
+						genotype[i] = 0;
+					else 
+						genotype[i] = genotype[i] - itemQuantity;
+				}// koniec if - zminiejszamy ilosc przedmiotu
 				else
-					genotype[i] = genotype[i] + 0.5;
-			}
+					genotype[i] = genotype[i] + itemQuantity;
 		}//koniec if - czy mutowac
 	}//koniec for
 	updateFitness();
 }
+
 
 
 
@@ -318,7 +330,7 @@ void CIndividual<int>::generateRandomGenotype()
 {
 	for (int i = 0; i < numberOfGenes; i++)
 	{
-		int number = giveRandomNumber(0, 3);
+		int number = giveRandomNumber(0, I_MAX_NUMBER_OF_SAME_ITEMS);
 		genotype[i] = number;
 	}//koniec for
 }//koniec generate random genotype
@@ -329,27 +341,11 @@ void CIndividual<double>::generateRandomGenotype()
 {
 	for (int i = 0; i < numberOfGenes; i++)
 	{
-		int number = giveRandomNumber(0, 30);
-		double howMuch = ((double)number) / 10;
+		int number = giveRandomNumber(0, I_MAX_NUMBER_OF_SAME_ITEMS * I_MULTIPLIER);
+		double howMuch = ((double)number) / I_MULTIPLIER;
 		genotype[i] = howMuch;
 	}//koniec for
 }//koniec generate random genotype
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

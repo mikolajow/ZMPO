@@ -22,6 +22,7 @@ int main()
 {
 	// TEST 2
 
+	//nazwa - waga - wartosc
 	CItem *a = new CItem("1", 3, 5);
 	CItem *b = new CItem("2", 10, 12);
 	CItem *c = new CItem("3", 8, 10);
@@ -40,6 +41,7 @@ int main()
 
 	CKnapsackProblem *problem = new CKnapsackProblem(&itemList, 20.);
 
+	// mutacja - krzyzowanie - rozmiar populacji - problem
 	CGeneticAlgorithm<int> *algInt = new CGeneticAlgorithm<int>(0.3, 0.7, 60, problem);
 	CGeneticAlgorithm<bool> *algBool = new CGeneticAlgorithm<bool>(0.3, 0.7, 60, problem);
 	CGeneticAlgorithm<double> *algDouble = new CGeneticAlgorithm<double>(0.3, 0.7, 60, problem);
@@ -62,6 +64,7 @@ int main()
 
 	CMenuCommand *clsMenuCommand = new CMenuCommand("wyczysc ekran", "cls", cls);
 
+	// opis - komenda - kontroler
 	CMenuCommand *runAlgIntMenuCommand = new CMenuCommand("wystartuj algorytm genetyczny dla int", "i", runAlgInt);
 	CMenuCommand *runAlgBoolMenuCommand = new CMenuCommand("wystartuj algorytm genetyczny dla bool", "b", runAlgBool);
 	CMenuCommand *runAlgDoubleMenuCommand = new CMenuCommand("wystartuj algorytm genetyczny dla double", "d", runAlgDouble);

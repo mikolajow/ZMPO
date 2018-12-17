@@ -253,7 +253,7 @@ void CGeneticAlgorithm<T>::mutatePopulation()
 		mutationProb = giveRandomProbability();
 
 		if (mutationProb <= mutationProbability)
-			currentIndividual++;
+			(*currentIndividual)++;
 	}//koniec mutowania osobnikow
 }
 
